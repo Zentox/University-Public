@@ -1,0 +1,54 @@
+\documentclass{preamble}
+
+% Bibliography
+\addbibresource{bibliography.bib}
+
+% Index
+\makeindex[
+	columns = 3,
+    intoc,
+    title = \indexnamelanguage,
+    options = -s index
+]
+
+% Title information
+\title{Title}
+\subtitle{Subtitle}
+\author{Author}
+\department{Department}
+\semester{Semester}
+\date{Date}
+
+% Document
+\begin{document}
+
+\nocite{*}
+
+\maketitle
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\foreach \digit in {0, ..., 0} {
+	\include{contents/\twodigits{\digit}_content/content}
+}
+
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+\listoftables
+
+\clearpage
+
+\printbibliography[heading = bibintoc, title = \texorpdfstring{\indexnamelanguage}{Bibliography}]
+
+\clearpage
+
+\printindex
+\end{document}

@@ -1,0 +1,73 @@
+%%% Identification
+
+\def\fileversion{1.00}
+\def\filedate{2020/12/25}
+
+% Sets the LaTeX version for the package to work.
+\NeedsTeXFormat{LaTeX2e}
+
+% Identification of the package and its date and version.
+\ProvidesPackage{starrating} [\filedate\space\fileversion Star rating]
+
+%%% Packages
+
+%% Graphics
+\RequirePackage{tikz}
+
+%% l3keys2e
+% Key - value options
+\RequirePackage{l3keys2e}
+
+%%% Settings
+
+%% Colors
+% Inputs are color names.
+\newcommand*{\starcolor}{yellow}
+\newcommand*{\unfilledstarcolor}{gray}
+
+%% Options
+\ExplSyntaxOn
+% Creating keys
+\keys_define:nn {starrating}{
+    color .code:n = {\renewcommand*{\starcolor}{#1}},
+    unfilled .code:n = {\renewcommand*{\unfilledstarcolor}{#1}},
+}
+\ProcessKeysOptions{starrating}
+\ExplSyntaxOff
+
+%% Tikz
+\usetikzlibrary{shapes.geometric, calc}
+
+% Star rating graphic
+% \stars{difficulty}{total}
+\newcommand*{\stars}[2]{
+\pgfmathsetmacro\pgfxa{#1 + 1}
+\tikzstyle{scorestars} = [
+    anchor = outer point 3,
+    draw,
+    inner sep = .15em,
+    star,
+    star points = 5,
+    star point ratio = 2.25
+]
+\begin{tikzpicture}[baseline]
+    \foreach \i in {1, ..., #2} {
+            \pgfmathparse{\i <= #1 ? "\starcolor" : "\unfilledstarcolor"}
+            \edef\starcolor{\pgfmathresult}
+            \draw (\i * 1em, 0)
+            node[
+                name = star\i,
+                scorestars,
+                fill = \starcolor
+            ] {};
+    }
+    \pgfmathparse{#1 > int(#1) ? int(#1 + 1) : 0}
+    \let\partstar = \pgfmathresult
+    \ifnum\partstar > 0
+        \pgfmathsetmacro\starpart{#1 - int(#1)}
+        \path[clip] ($(star\partstar.outer point 3)!(star\partstar.outer point 2)!(star\partstar.outer point 4)$) rectangle
+        ($(star\partstar.outer point 2 |- star\partstar.outer point 1)!\starpart!(star\partstar.outer point 1 -| star\partstar.outer point 5)$);
+        \fill (\partstar * 1em, 0) node[scorestars, fill = \starcolor] {};
+    \fi
+\end{tikzpicture}
+}

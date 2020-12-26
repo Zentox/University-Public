@@ -1,0 +1,64 @@
+%%% Identification
+
+\def\fileversion{1.00}
+\def\filedate{2020/12/25}
+
+% Sets the LaTeX version for the package to work.
+\NeedsTeXFormat{LaTeX2e}
+
+% Identification of the package and its date and version.
+\ProvidesPackage{pseudocode} [\filedate\space\fileversion Pseudocode]
+
+%%% Packages
+
+%% l3keys2e
+% Key - value options
+\RequirePackage{l3keys2e}
+
+% Options
+\ExplSyntaxOn
+% Creating keys
+\keys_define:nn {pseudocode}{
+	noend .bool_gset:N  = \g_pseudocode_noend_bool,
+	noend .default:n = true,
+	noend .initial:n  = true,
+}
+
+% Needs to be processed before loading the package algpseudocode
+\ProcessKeysOptions{pseudocode}
+
+\bool_if:NT \g_pseudocode_noend_bool{
+\PassOptionsToPackage{noend}{algpseudocode}
+}
+\ExplSyntaxOff
+
+%% Algorithm
+\RequirePackage{algorithm}
+\RequirePackage{algpseudocode}
+
+%% KOMA-Script
+% Usability of commands of the Koma's script
+\RequirePackage{scrbase}
+
+%%% Settings
+
+%% Algorithm
+% For Each Loop
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+% Language for algorithm name
+\providecaptionname{ngerman, german}{\algorithmname}{Algorithmus}
+\providecaptionname{english, american, british}{\algorithmname}{Algorithm}
+
+% language for list of algorithms
+\providecaptionname{ngerman, german}{\listofalgorithmsname}{Algorithmenverzeichnis}
+\providecaptionname{english, american, british}{\listofalgorithmsname}{List of Algorithms}
+
+% List of algorithm name
+\renewcommand*{\listalgorithmname}{\listofalgorithmsname}
+
+% Name
+\makeatletter
+\renewcommand*{\ALG@name}{\algorithmname}
+\makeatother

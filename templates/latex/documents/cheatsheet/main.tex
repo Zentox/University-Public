@@ -1,0 +1,17 @@
+\documentclass{preamble}
+
+% Title information
+\title{Cheatsheet}
+\author{Author}
+
+% Document
+\begin{document}
+\maketitle
+
+\begin{cheatcols}
+    \foreach \digit in {0, ..., 0}{
+            \turnoff
+            \input{contents/\twodigits{\digit}_content/content}
+    }
+\end{cheatcols}
+\end{document}

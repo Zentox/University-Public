@@ -1,0 +1,180 @@
+%%% Identification
+
+\def\fileversion{1.00}
+\def\filedate{2020/12/25}
+
+% Sets the LaTeX version for the package to work.
+\NeedsTeXFormat{LaTeX2e}
+
+% Identification of the package and its date and version.
+\ProvidesPackage{codelistings} [\filedate\space\fileversion Code listings]
+
+%%% Packages
+
+%% Caption
+\RequirePackage{caption}
+
+%% Color
+\RequirePackage{xcolor}
+
+%% expl3
+\RequirePackage{expl3}
+
+%% KOMA-Script
+% Usability of commands of the Koma's script
+\RequirePackage{scrbase}
+
+%% l3keys2e
+\RequirePackage{l3keys2e}
+
+%% Listings
+\RequirePackage{listings}
+
+%%% Colros
+
+\definecolor{backgroundcolor}{rgb}{0.95, 0.95, 0.92}
+\definecolor{captionboxcolor}{rgb}{0.7, 0.7, 0.7}
+\definecolor{commentcolor}{rgb}{0.55, 0.55, 0.55}
+\definecolor{identifiercolor}{rgb}{0, 0, 0}
+\definecolor{keywordcolor}{rgb}{0, 0, 0.5}
+\definecolor{numbercolor}{rgb}{0, 0, 0}
+\definecolor{stringcolor}{rgb}{0, 0.5, 0}
+
+%%% Settings
+
+%%% Caption setup
+\captionsetup[lstlisting]{%
+    box = colorbox,
+    boxcolor = captionboxcolor,
+    font = {color = white},
+    justification = raggedright,
+	labelfont = {color = white},
+	textfont = {color = white},
+    singlelinecheck = off
+    }
+
+%% Listing
+% Langguage list of codes
+\providecaptionname{ngerman, german}{\listingstitle}{Code}
+\providecaptionname{english, american, british}{\listingstitle}{Code}
+
+\providecaptionname{ngerman, german}{\listofcodesname}{Codeverzeichnis}
+\providecaptionname{english, american, british}{\listofcodesname}{List of Codes}
+
+% Listings name
+\renewcommand*{\lstlistingname}{\listingstitle}
+    
+% List of listing title
+\renewcommand*{\lstlistlistingname}{\listofcodesname}
+
+% Relative listing path
+\newcommand*{\listingspath}[1]{\lstset{inputpath = #1}}
+
+%% Variables
+\ExplSyntaxOn
+% Numbering size in em
+\int_new:N \l__codelistings_numberingmargin_int
+\ExplSyntaxOff
+
+%%% Options
+
+\ExplSyntaxOn
+\keys_define:nn {codelistings}{
+	numberingmargin .code:n = \int_set:Nn \l__codelistings_numberingmargin_int {#1},
+	numberingmargin .default:n = 2,
+	numberingmargin .initial:n  = 2
+}
+\ProcessKeysOptions{codelistings}
+\ExplSyntaxOff
+
+%%% Styles
+
+\ExplSyntaxOn
+% Java
+\lstdefinestyle{Java}{
+	basicstyle = \ttfamily\linespread{1.15}\small,
+	backgroundcolor =  \color{backgroundcolor},
+	breaklines = true,
+	commentstyle = \color{commentcolor},
+	identifierstyle = \color{identifiercolor},
+	keywordstyle = \color{keywordcolor},
+	language = Java,
+	literate =
+		{\_}{}{0\discretionary{\_}{}{\_}}
+		{Ä}{{\"A}}1
+		{Ö}{{\"O}}1
+    	{Ü}{{\"U}}1
+   		{ä}{{\"a}}1
+   		{ö}{{\"o}}1
+    	{ü}{{\"u}}1
+    	{ß}{{\ss}}1,
+	morekeywords = {assert},
+	numbers = left,
+	numbersep = 5pt,
+	numberstyle = \color{numbercolor},
+	resetmargins = true,
+	showspaces = false,
+	showstringspaces = false,
+	showtabs = false,
+	stringstyle = \color{stringcolor},
+	tabsize = 2,
+	title = \empty,
+	xleftmargin = \l__codelistings_numberingmargin_int em
+	}
+
+\lstdefinestyle{Racket}{
+	alsoletter = +-*/?\=<>!~\#,
+	basicstyle = \ttfamily\linespread{1.15}\small,
+	backgroundcolor =  \color{backgroundcolor},
+	breaklines = true,
+	commentstyle = \color{commentcolor},
+	identifierstyle = \color{identifiercolor},
+	keywordstyle = \color{keywordcolor},
+	literate =
+		{\_}{}{0\discretionary{\_}{}{\_}}
+		{Ä}{{\"A}}1
+		{Ö}{{\"O}}1
+    	{Ü}{{\"U}}1
+   		{ä}{{\"a}}1
+   		{ö}{{\"o}}1
+    	{ü}{{\"u}}1
+    	{ß}{{\ss}}1,
+    morecomment = [l]{;},
+	morekeywords = {
+		abs, acos, add1, and, angle, andmap, append, apply, argmax, argmin, asin, assoc, assq, atan,
+		boolean->string, boolean=?, boolean?, box, box?, build-list, build-string, build-vector,
+		caaar, caadr, caar, cadar, cadddr, caddr, cadr, car, char->integer, char-alphabetic?, char-ci<?, char-ci<=?, char-ci=?, char-ci>=?, char-ci>?, char-downcase, char-lower-case?, char-numeric?, char-upcase, char-upper-case?, char-whitespace?, char<=?, char<?, char>=?, char>?, char?, cdadr, cdar, cddar, cdddr, cddr, cdr, ceiling, check-error, check-expect, check-member-of, check-random, check-range, check-satisfied, check-within , complex?, compose, cond, conjugate, cons, cons?, cos, cosh, current-milliseconds, current-seconds, define, define-struct,
+		denominator, display,
+		e, eighth, empty, empty?, eof, eof-object?, eq?, equal?, equal~?, eqv?, error, even?, exact->inexact, exact?, exit, exp, explode, expt,
+		false, false?, fifth, filter, first, floor, foldl, foldr, for-each, force, format, fourth,
+		gcd, gensym,
+		hash-copy, hash-count, hash-eq?, hash-equal?, hash-eqv?, hash-for-each, hash-has-key?, hash-map, hash-ref, hash-ref!, hash-remove, hash-remove!, hash-set, hash-set!, hash-update, hash-update!, hash?,
+		identity, if, image=?, image?, imag-part, implode, inexact->exact, inexact?, int->string, integer->char, integer-sqrt, integer?,
+		lambda, lcm, length, list, list*, list-ref, list->string, list->vector, list?, local, log,
+		magnitude, make-hash, make-hasheq, make-hasheqv, make-immutable-hash, make-immutable-hasheq, make-immutable-hasheqv, make-list, make-polar, make-posn, make-rectangular, make-string, make-vector, map, max, member, member?, memf, memq, memq?, memv, min, modulo,
+		negative?, newline, not, null, null?, number->string, number?, numerator,
+		odd?, or, ormap,
+		pi, positive?, posn, posn-x, posn-y, posn?, pretty-print, print, printf, procedure?, promise?,
+		quicksort, quotient,
+		random, range, rational?, read, real-part, remainder, remove, remove-all, replicate, rest, reverse, round, require,
+		second, set-box!, set-posn-x!, set-posn-y!, seventh, sgn, sin, sinh, sixth, sleep, sort, sqr, sqrt, string, string<=?, string<?, string=?, string>=?, string>?, string->int, string->list, string->number, string->symbol, string-alphabetic?, string-contains-ci?, string-contains?, string-append, string-ci<=?, string-ci<?, string-ci=?, string-ci>=?, string-ci>?, string-copy, string-downcase, string-ith, string-length, string-lower-case?, string-numeric?, string-ref, string-upcase, string-upper-case?, string-whitespace?, string?, struct?, sub1, substring, symbol->string, symbol=?, symbol?
+		tan, third, time, true,
+		unbox,
+		vector, vector->list, vector-length, vector-ref, vector-set!, vector?, void, void?,
+		with-input-from-file, with-input-from-string, with-output-to-file, with-output-to-string, write,
+		zero?,
+		\#t, \#true, \#f, \#false
+		},
+	morestring = [b]",
+	numbers = left,
+	numbersep = 5pt,
+	numberstyle = \color{numbercolor},
+	resetmargins = true,
+	showspaces = false,
+	showstringspaces = false,
+	showtabs = false,
+	stringstyle = \color{stringcolor},
+	tabsize = 2,
+	title = \empty,
+	xleftmargin = \l__codelistings_numberingmargin_int em
+	}

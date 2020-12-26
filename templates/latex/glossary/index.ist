@@ -1,0 +1,95 @@
+%%% Requirements
+% Package tikz used for fancy index theme style
+% - tikz library: shadows.blur, shapes
+% For custom language dependent headers add the following lines in your preamble
+% Example using KOMA-Script
+
+%% Style
+% Heading color
+\newcommand*{\indexheadingcolor}{preamblecolor}
+
+%% Gloassary
+% Indent
+\makeatletter
+\def\@idxitem{\par\hangindent 0pt}
+\makeatother
+
+%% Language
+% Index name
+\providecaptionname{ngerman, german}{\indexnamelanguage}{Stichwortverzeichnis}
+\providecaptionname{english, american, british}{\indexnamelanguage}{Index}
+% Numbers
+\providecaptionname{ngerman, german}{\indexnumbername}{Zahlen}
+\providecaptionname{english, american, british}{\indexnumbername}{Numbers}
+
+% Symbols
+\providecaptionname{ngerman, german}{\indexsymbolname}{Symbole}
+\providecaptionname{english, american, british}{\indexnamelanguage}{Symbols}
+
+
+%% Children index enumeration
+item_01 "\n \\subitem$\\bullet$ "
+item_1 "\n \\subitem$\\bullet$ "
+item_12 "\n \\subsubitem - "
+item_2 "\n \\subsubitem - "
+
+% Delimter
+delim_0 "\\dotfill"
+delim_1 "\\dotfill"
+delim_2 "\\dotfill"
+
+%% Headings
+% Enable headings
+headings_flag 1
+
+% Custom heading
+heading_prefix
+"
+\\nopagebreak\n
+\\begin{tikzpicture}
+    \\node[
+        drop shadow = {opacity = .5, shadow xshift = 0pt},
+        fill = black!20!\\indexheadingcolor,
+        minimum height = .7cm,
+        rounded rectangle,
+        rounded rectangle west arc = 0pt,
+        text = white
+    ]
+    (text)
+    {\\large\\noindent\\bfseries\\sffamily " heading_suffix "};
+
+    \\draw
+    ([xshift = 4mm]text.north east)
+    [
+        color = gray,
+        drop shadow = {
+                opacity = .5,
+                shadow xshift = 2pt
+            },
+        fill = gray
+    ]
+    coordinate (a) [bend right = 0] to ([xshift = 5.18cm] text.north west)
+    coordinate (b) [bend right] to +(0, -0.7cm)
+    coordinate (c) [bend right] to (a |- c) [bend right = 60] to cycle ;
+    \\end{tikzpicture}
+\\nopagebreak\n
+"
+
+%% Separator
+% Seperator between the start and end of a page area
+delim_r "--"
+
+%% Suffix
+% Suffix for a range of 2 pages
+suffix_2p "\\,f."
+
+% Suffix for a range of 3 pages
+suffix_3p "\\,ff."
+
+%% Symbol head name
+symhead_positive "\\indexsymbolname"
+symhead_negative "\\indexsymbolname"
+
+%% Number head name
+numhead_positive "\\indexnumbername"
+numhead_negative "\\indexnumbername"
