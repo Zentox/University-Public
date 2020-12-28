@@ -1,0 +1,197 @@
+\documentclass{../preamble}
+
+\usepackage{../fopbot}
+
+% Title information
+\date{16.11.2020 - 20.11.2020}
+\sheetnumber{1}
+\version{28. Dezember 2020}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\makedisclaimer
+
+\clearpage
+
+\begin{task}[credit = \stars{0}{3}]{FopBot}
+    Beschreiben Sie kurz in ihren eigenen Worten worum es sich bei FopBot handelt, wie die Welt aufgebaut ist und welche Grundfunktionen jeder Roboter beherrscht.
+
+    \begin{tcolorbox}
+        \textbf{Für alle Aufgaben auf diesem und allen weiteren Übungsblättern}: In der Abschlussklausur werden Sie keine Hilfsmittel zur Verfügung haben. Üben Sie also schon zu  Beginn auch ohne Entwicklungsumgebung und nur mit Stift auf einem Blatt Papier zu programmieren. Abschließend können Sie dann ihre vollständige Lösung in die Entwicklungsumgebung übertragen und überprüfen
+    \end{tcolorbox}
+
+    \begin{solution}
+        FopBot ist ein Package mit mehreren Klassen. Man kann damit eine beliebige Welt (mit Wänden) generieren und beliebig viele Objekte von Robot reinsetzen, die jeweils beliebig viele Coins haben können. In der Klasse Robot sind mehrere Methoden, die es dem Robot erlauben mit dieser Welt zu interagieren wie bspw. move(), die den Robot in eine Richtung laufen lässt (Richtung ist durch Directions als Enumeration definiert).
+    \end{solution}
+\end{task}
+
+\begin{task}[credit = \stars{0}{3}]{Liegen geblieben}
+    Betrachten Sie den folgenden Codeausschnitt/führen Sie ihn selbst einmal aus:
+    \lstinputlisting[style = Java]{codes/V2_Task.java}
+
+    \begin{solution}
+        Es kommt in der Zeile 4 zum Problem, weil der Roboter keinen Coin hat, den er ablegen kann.
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Rechteck}
+    Schreiben Sie ein Programm, welches zwei Roboter \code{putbot} und \code{pickbot} erstellt. Dabei soll \code{putbot} mit Coins ein Rechteck der  Höhe \(5\) und der Breite \(3\) zeichnen. Es sollen nur die Seiten des Rechtecks gezeichnet werden, die restlichen innen liegenden Felder des Rechtecks bleiben unberührt. Nachdem das Rechteck gezeichnet wurde, soll \code{pickbot} alle Coins wieder einsammeln. Überlegen Sie sich, wie Sie das Programm mit nur einer Schleife pro Roboter gestalten können.
+
+    \begin{figure}[h]
+        \centering
+        \begin{FOPBotWorld}{5}{6}
+            \foreach \x/\y in {
+                    {0/0},
+                    {0/1},
+                    {0/2},
+                    {0/3},
+                    {0/4},
+                    {2/0},
+                    {2/1},
+                    {2/2},
+                    {2/3},
+                    {2/4},
+                    {1/0},
+                    {1/4},
+                }{
+                    \putcoin{\x}{\y}{1}
+                }
+            \path (0,0) pic {Trianglebot};
+            \path (0,0) pic[rotate=270] {Trianglebot};
+        \end{FOPBotWorld}
+        \caption{Fertiggestelltes Rechteck durch \code{putbot}}
+    \end{figure}
+
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V3_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Bedingungen I}
+    Betrachten Sie folgenden Codeausschnitt:
+    \lstinputlisting[style = Java]{codes/V4_Task.java}
+    Beschreiben Sie in eigenen Worten, welchem Zweck dieser Codeausschnitt dient. Erweitern Sie außerdem den Code so, dass \code{bot1} nur einen Coin ablegt, wenn er auch mindestens einen besitzt.
+
+    \begin{solution}
+    	Es wird ein Roboter an der Position (3, 1) mit der Blickrichtung nach oben platziert. Dieser Roboter hat eine Münze und führt einen Schritt nach vorne (in Blickrichtung) aus. Falls sich unter ihm eine Münze befindet, so hebt er diese auf. Ansonsten legt er eine Münze ab (, sofern er mindestens eine Münze besitzt).
+        \lstinputlisting[style = Java]{codes/V4_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Variablen}
+    Legen Sie eine Variable \code{\textcolor{keywordcolor}{int} a} an und setzen Sie ihren Wert auf \code{127}. Jetzt legen Sie eine weitere Variable \code{\textcolor{keywordcolor}{int} b} an und setzen Ihren Wert auf \code{42}. Was gibt nun der Ausdruck \code{\textcolor{keywordcolor}{int} c = a \% b} wieder? Beschreiben Sie in Ihren eigenen Worten, welche Berechnung mit dem \code{\%} Operator durchgeführt wird.
+
+    \begin{solution}
+        Der Ausdruck gibt 1 zurück, also den Rest aus der ganzzahligen Division von \code{a} und \code{b}. Es handelt sich hier um den Modulo Operator, welcher den Rest aus der ganzzahligen Division zurückgibt.
+    \end{solution}
+\end{task}
+
+\begin{task}[credit = \stars{1}{3}]{Bedingungen II}
+    Ihr Kommilitone ist etwas tippfaul und lässt deswegen gerne einmal Klammern weg, um sich  Arbeit zu sparen. Er hat in seinem Code eine Variable \code{\textcolor{keywordcolor}{int} number} angelegt, in der er eine Zahl speichert. Ist diese Zahl kleiner als \(0\), so möchte er das Vorzeichen der Zahl umdrehen und sie anschließend um \(1\) erhöhen. Ist die Zahl hingegen größer als \(0\), so möchte er die Zahl verdoppeln. Dazu schreibt er folgenden Code:
+    \lstinputlisting[style = Java]{codes/V6_Part01_Task.java}
+    Kann der Code so ausgeführt werden? Beschreiben Sie den Fehler, den ihr Kommilitone begangen hat.
+    \br
+    Nachdem Sie ihren Kommilitonen auf den obigen Fehler hingewiesen haben, überarbeitet er seinen Versuch. Wie sieht es mit folgender Variante aus?
+    \lstinputlisting[style = Java]{codes/V6_Part02_Task.java}
+    Da müssen Sie wohl selbst ran. Erstellen Sie ein Codestück, um den Sachverhalt korrekt zu implementieren.
+
+    \begin{solution}
+        \begin{enumerate}
+            \item Bei einer \textcolor{keywordcolor}{if}-\textcolor{keywordcolor}{else} Anweisung darf zwischen dem \textcolor{keywordcolor}{if} und \textcolor{keywordcolor}{else} keine Anweisung außerhalb dieses Konstrukts sein.
+            \item Hier fehlen die Klammer der zweiten \textcolor{keywordcolor}{if}-Anweisung, da der \code{counter} ansonsten immer um \(1\) inkrementiert wird.
+        \end{enumerate}
+        \lstinputlisting[style = Java]{codes/V6_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Schleifen I}
+    Schreiben Sie den folgenden Ausdruck mithilfe einer \textcolor{keywordcolor}{for}-Schleife:
+    \lstinputlisting[style = Java]{codes/V7_Task.java}
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V7_Solution.java}
+    \end{solution}
+\end{task}
+
+\begin{task}[credit = \stars{1}{3}]{Schleifen II}
+    Ihr klammerfauler Kommilitone hat auch diesmal wieder zugeschlagen und versucht den Code aus vorheriger Aufgabe kürzer zu schreiben. Was sagen Sie dazu?
+    \lstinputlisting[style = Java]{codes/V8_Task.java}
+
+    \begin{solution}
+        Der Roboter würde in diesem Falle unendlich weiterlaufen, da die Inkrementation der Variable \code{i} außerhalb der \textcolor{keywordcolor}{while}-Schleife ist.
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Anzahl an Umdrehungen}
+    Legen Sie eine Variable \textcolor{keywordcolor}{int} \code{numberOfTurns} an und setzen Sie ihren Wert zu Beginn auf \(0\). Erstellen Sie dann einen neuen Roboter und platzieren Sie ihn an der Stelle \((8,2)\). Er schaut dabei nach links und besitzt keine Coins. Lassen Sie den Roboter nun geradewegs auf die Stelle \((0,2)\) zusteuern und alle Coins auf seinem Weg aufsammeln. Liegen mehrere Coins auf einer Stelle, so soll er alle Coins aufsammeln. Bei jedem Aufsammeln, erhöhen Sie den Wert von \code{numberOfTurns} um \(1\). Hat er am Ende die Stelle \((0,2)\) erreicht, soll er sich \code{numberOfTurns}-mal nach links drehen.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V9_Solution.java}
+    \end{solution}
+\end{task}
+
+\begin{task}[credit = \stars{2}{3}]{Vorsicht Wand!}
+    Gehen Sie in dieser Aufgabe davon aus, dass Sie einen Roboter \code{wally} an der Position \((0, 0)\) erstellt haben und er nach rechts schaut. An der Position \((0,0)\) befindet sich eine vertikale Wand die den Weg nach \((x + 1, 0)\) versperrt, die \(x\)-Koordinate ist allerdings unbekannt. Schreiben Sie ein kleines Programm, mit dem Sie den Roboter bis vor die Wand laufen lassen, direkt vor der Wand einen Coin ablegen, um dann wieder an die Ausgangsposition (0,0) zurückzukehren.
+    \br
+    \textbf{Hinweis:} Es gibt die Funktion \code{isFrontClear()}, mit der getestet werden kann, ob sich in der Blickrichtung des Roboters direkt eine Wand befindet.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V10_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Codeverständnis}
+    Beschreiben Sie ausführlich, welches Verhalten der nachfolgende Code umsetzt. Bei Fragen zur Funktionalität einzelner Methoden, werfen Sie einen Blick in die entsprechenden Vorlesungsfolien.
+    \lstinputlisting[style = Java]{codes/V11_Task.java}
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V11_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{3}{3}]{Navigator}
+    Gegeben seien vier Variablen:
+
+    \begin{minipage}{0.475\textwidth}
+        \begin{flushright}
+            \textcolor{keywordcolor}{int} \code{startX}
+            \br
+            \textcolor{keywordcolor}{int} \code{destinationX}
+        \end{flushright}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.475\textwidth}
+        \textcolor{keywordcolor}{int} \code{startY}
+        \br
+        \textcolor{keywordcolor}{int} \code{destinationY}
+    \end{minipage}
+    \br
+    Ihr Roboter befindet sich zu Beginn an der Position (\code{startX}, \code{startY}) und schaut in eine beliebige Richtung. Schreiben Sie ein Programm, das ihn von dieser Position auf die Position (\code{destinationX}, \code{destinationY}) laufen lässt.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V12_Solution.java}
+    \end{solution}
+\end{task}
+\end{document}
