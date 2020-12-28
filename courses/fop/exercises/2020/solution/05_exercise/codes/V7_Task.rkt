@@ -1,0 +1,1 @@
+(define-struct my-pair (one two)
