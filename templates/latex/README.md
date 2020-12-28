@@ -7,10 +7,9 @@
 
 # Section name
 Templates - LaTeX
-- TUDa Ci
 
 # Description
-This directory is used for the use of templates that are used for the Darmstadt University of Technology and can be used for various activities.
+This directory is used for the use of LaTeX related templates that can be used for various activities.
 
 # Programming Languages
 - LaTeX
