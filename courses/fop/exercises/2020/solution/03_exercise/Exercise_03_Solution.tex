@@ -1,0 +1,192 @@
+\documentclass{../preamble}
+
+% Title information
+\date{30.11.2020 - 04.12.2020}
+\sheetnumber{3}
+\version{28. Dezember 2020}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\makedisclaimer
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Die Würfel sind gefallen!}
+    Mit der Funktion \code{Math.random()} können Sie eine Zufallszahl im Bereich \(0\) (inklusive) und \(1\) (exklusive) erzeugen. Schreiben Sie nun eine Methode \textcolor{keywordcolor}{void} \code{diceRoll()}.
+    \br
+    Diese soll einen Würfelwurf simulieren und die gewürfelte Augenzahl auf der Konsole zurückgeben. Dabei soll der Würfel fair sein, das heißt alle Augenzahlen sollen mit identischer Wahrscheinlichkeit auftreten.
+    \br
+    \textit{Hinweise:} Überlegen Sie sich, wie Sie die erzeugten Zahlen aus dem Intervall \([0,1)\) auf die diskrete Menge \(\{1, 2, 3, 4, 5, 6\}\) abbilden können. Mit der Funktion \code{Math.ceil()} können Sie zur nächst größeren, ganzen Zahl aufrunden.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V1_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Schleifen}
+    \lstinputlisting[style = Java]{codes/V2_Task.java}
+    \begin{enumerate}[label = (\arabic*)]
+        \item Welche Funktion erfüllt der oben stehende Code?
+        \item Ersetzen Sie die \textcolor{keywordcolor}{while}-Schleife einmal durch eine \textcolor{keywordcolor}{for}- und einmal durch eine \textcolor{keywordcolor}{do}...\textcolor{keywordcolor}{while}-Schleife.
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}[label = (\arabic*)]
+            \item Die Methode gibt die nächstgrößere Quadratzahl zu der Zahl \(1000\) zurück. (also die Zahl \(x\), sodass \((x^2 > 1000)\))
+            \item
+                  \noindent
+                  \lstinputlisting[style = Java]{codes/V2_Part01_Solution.java}
+                  \lstinputlisting[style = Java]{codes/V2_Part02_Solution.java}
+        \end{enumerate}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Interfaces}
+    Schreiben Sie ein Interface \code{I1} mit einer parameterlosen \textcolor{keywordcolor}{void}-Methode \code{m1}. Nun schreiben Sie ein Interface \code{I2}, das von \code{I1} erbt. \code{I2} hat eine zusätzliche \textcolor{keywordcolor}{void}-Methode \code{m2} mit einem \textcolor{keywordcolor}{int}-Parameter \code{i}. Abschließend schreiben Sie eine Klasse \code{C1}, die das Interface \code{I2} implementiert. Die Klasse hat ein \textcolor{keywordcolor}{int}-Attribut \code{number}. Beim Aufruf der Methode \code{m1} soll \code{number} auf \code{-1} gesetzt werden. Wird Methode \code{m2} aufgerufen, so soll \code{number} auf den übergebenen Wert gesetzt werden.
+
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V3_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Geometrische Formen I}
+    Gegeben seien folgende zwei Klassen:
+    \lstinputlisting[style = Java]{codes/V4_Task.java}
+    Schreiben Sie zunächst ein Interface \code{ComputeArea} mit einer parameterlosen \textcolor{keywordcolor}{double}-Methode \code{computeArea}. Erweitern Sie nun die zwei oben genannten Klassen, sodass beide das Interface \code{ComputeArea} implementieren. Die Methode \code{computeArea} soll den Flächeninhalt des Kreises bzw. des Rechtecks berechnen und zurückliefern.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V4_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Geometrische Formen II}
+    Schreiben Sie eine Methode \textcolor{keywordcolor}{double} \code{computeTotalArea} mit zwei Parametern \code{Circle[]} \code{circles} und \code{Rectan} -
+    \newline
+    \code{gle} [] \code{rectangles}. Die Methode summiert die Flächeninhalte aller übergebenen  geometrischen Formen in den beiden Arrays auf und gibt  diese Summe zurück.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V5_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Spieglein, Spieglein...}
+    Wir nennen eine Gruppe von Elementen in einem Array Spiegel, wenn sie irgendwo im Array nochmal auftaucht, nur  in umgekehrter Reihenfolge. Beispielsweise ist im Array \([7, 6, 5, 1, 9, 8, 5, 6, 7]\) ein Spiegel vorhanden und zwar \([7,6,5]\). Schreiben Sie eine Methode \textcolor{keywordcolor}{int} \code{maxMirror}(\textcolor{keywordcolor}{int}[] \code{arr}). Diese bekommt ein Array übergeben und gibt die Länge des größten Spiegels im übergebenen Array zurück. Gibt es keinen Spiegel so wird einfach \(0\) zurückgeliefert.
+    \br
+    \textbf{Hinweis:} Starten Sie mit zwei Zeigern auf dem ersten und dem letzten Element. Vergleichen Sie nun paarweise die Elemente und überlegen Sie sich, wann Sie die beiden Zeiger weiter in die Mitte bewegen.
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V6_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Matrix-Multiplikation}
+    Der folgende Code stellt beispielsweise die Matrix
+    \(
+    \begin{pmatrix}
+        5 & 8
+        \\
+        1 & -3
+    \end{pmatrix}
+    \)
+    dar.
+    \lstinputlisting[style = Java]{codes/V7_Task.java}
+    Sie sehen also, dass Sie einem Array in Java beliebig viele Dimensionen geben können.
+    \br
+    Schreiben Sie eine Methode \textcolor{keywordcolor}{int}[][] \code{matrixMul}(\textcolor{keywordcolor}{int}[][] \code{mat1}, \textcolor{keywordcolor}{int}[][] \code{mat2}).
+    \br
+    Die Methode bekommt zwei Matrizen, dargestellt durch zwei zwei-dimensionale Arrays, übergeben und gibt die resultierende Produktmatrix zurück. Sollte die Multiplikation aufgrund falscher Dimensionen nicht möglich sein, so geben Sie eine entsprechende Nachricht auf dem Bildschirm aus und liefern \textcolor{keywordcolor}{null} zurück.
+    \br
+    \textbf{Hinweis:} Verwenden Sie drei ineinander  geschachtelte \textcolor{keywordcolor}{for}-Schleifen. Die  erste iteriert über die Reihen von \code{mat1}, die zweite iteriert über die Spalten von \code{mat1} und die Reihen von \code{mat2} und die letzte iteriert über die Spalten von \code{mat2}.
+
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V7_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\section*{Weitere Roboter-Klassen}
+In vielen Aufgaben reichen uns die eingeschränkten Methoden eines Roboters der \code{FopBot}-Werke nicht. Daher definieren wir uns neue Roboter, welche die technischen Anforderungen erfüllen. In den Foliensätzen zu \code{FopBot} haben Sie bereits Beispiele wie den \code{SymmTurner} Roboter dazu gesehen.
+
+
+\begin{task}[credit = \stars{1}{3}]{CoinPutter}
+    Implementieren Sie zunächst in der aus der Vorlesung bekannten Roboter-Klasse \code{SymmTurner} die \textcolor{keywordcolor}{public} \textcolor{keywordcolor}{void}-Methode \code{coinMove}(\textcolor{keywordcolor}{int} \code{countOfSteps}): Diese soll \code{countOfSteps} Schritte nach vorne gehen und vor jedem Schritt einen Coin ablegen. Sollte die geforderte Anzahl an Schritten größer sein als die Anzahl an Coins soll der Roboter einfach stehen bleiben und sich ausschalten. Verwenden Sie dazu die Ihnen aus der Vorlesung bekannte \textcolor{keywordcolor}{public}-Methode \textcolor{keywordcolor}{void} \code{turnOff()}. Sollten mehr Coins vorhanden sein als Schritte gefordert sind, soll er an seiner finalen Position alle verbleibenden Coins ablegen.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V8_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Richtungsdreher}
+    In dieser Aufgabe soll eine neue Roboterklasse definiert werden, deren Roboter sich mittels eines einzigen Aufrufs in eine beliebige Richtung drehen können. Erstellen Sie dafür die Klasse \code{DirectionTurner}, die direkt von der Klasse \code{Robot} erbt und die parameter- und rückgabelosen \textcolor{keywordcolor}{public}-Methoden \code{turnUp}, \code{turnRight}, \code{turnDown} und \code{turnLeft} so implementiert,dass der Roboter nach Aufruf einer dieser Methoden in die entsprechende Richtung blickt.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V9_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{3}{3}]{TeamRobot}
+    In dieser Aufgabe sollen Sie ihre erste eigene Roboterklasse von Grund auf implementieren. Erstellen Sie dazu eine neue Klasse \code{TeamRobot}, die die Klasse \code{Robot} erweitert, also von ihr erbt. Der Konstruktor der Klasse \code{TeamRobot} übernimmt die Parameter des Konstruktors der Oberklasse \code{Robot} und besitzt zusätzlich die Parameter \textcolor{keywordcolor}{int} \code{left} und \textcolor{keywordcolor}{int} \code{right}. Der Parameter \textcolor{keywordcolor}{int} \code{left} gibt an, wie viele zusätzliche Roboter beim Aufruf des Konstruktors links neben des TeamRobots platziert werden. Der Parameter \textcolor{keywordcolor}{int} \code{right} ist analog, für die Roboter rechts. Der \code{TeamRobot}, sowie die Roboter links und rechts von ihm bilden ein Team. Die zusätzlichen Roboter werden vom \code{TeamRobot} im Konstruktor erzeugt. Bekommt der \code{TeamRobot} einen Befehl, so soll dieser von allen Robotern im Team ausgeführt werden. Die zusätzlichen Roboter selbst sind dabei nicht ansprechbar, das heißt auf ihnen können keine Methoden aufgerufen werden. Überlegen Sie sich, wie Sie die Roboter des Teams in der \code{TeamRobot}-Klasse speichern können und wie Sie die Befehle die ein \code{TeamRobot} erhält, an alle Roboter im Team weiterreichen können. Die Befehle meinen hier die Methoden: \code{move()}, \code{turnLeft()}, \code{pickCoin()} und \code{putCoin()}.
+    \br
+    \textbf{Beispiel:} Beim Erstellen eines TeamRobots mit den Parametern \code{right = 1} und \code{left = 2} an der Position \((4, 4)\), werden zusätzlich 3 Roboter erstellt, die dem Team angehören, nämlich an der Position \((2, 4), (3, 4)\) (links) und \((5, 4)\) (rechts).
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V10_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{3}{3}]{The final Countdown}
+    In Unix-basierten Systemen wird die Zeit traditionell als vorzeichenbehaftete 32 Bit Ganzzahl gespeichert, die die seit dem 1. Januar 1970 vergangenen Sekunden repräsentiert.
+    \br
+    Schauen Sie folgenden Java-Code an. Beheben Sie sämtliche eingebauten Fehler, um den Code lauffähig zu machen. Was müssen Sie im Code ändern, um die folgende Ausgabe zu erhalten?
+    \br
+    \begin{center}
+        \textcolor{stringcolor}{\grqq Am 19.1.2038 kommt es zu einem Ueberlauf des Unix Zeitstempels\grqq}
+    \end{center}
+
+    \clearpage
+
+    \lstinputlisting[style = Java]{codes/V11_Task.java}
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V11_solution.java}
+
+        \clearpage
+
+        \begin{itemize}
+            \item Zeile 1: \textcolor{keywordcolor}{public class} \code{A} ohne \textcolor{keywordcolor}{final}, da Klasse \code{B} ansonsten nicht von \code{A} erben kann
+            \item Zeile 3: \textcolor{keywordcolor}{public int} \code{value3}, ohne \textcolor{keywordcolor}{final} und \textcolor{keywordcolor}{public}/\textcolor{keywordcolor}{protected} (Subklassen und im Package sichtbar) oder leer sein (Package sichtbar), da wir ansonsten mit der Methode \code{changeValue3} den Wert nicht verändern als auch in der Klasse \code{B} darauf zugreifen können.
+            \item Zeile 5, 9, 13, 17, 21: Der Zugriffmodifikator muss entweder \textcolor{keywordcolor}{public}/\textcolor{keywordcolor}{protected} (Subklassen und im Package sichtbar) oder leer sein (Package sichtbar), da Klasse \code{B} auf diese Methoden zugreift.
+            \item Zeile 21: \textcolor{keywordcolor}{public void} (ohne \textcolor{keywordcolor}{final}), da wir ansonsten die Methode in der Klasse \code{B} nicht überschreiben können.
+            \item Zeile 38, 39: \code{obj.getValue1()} und \code{obj.getValue2()}, da die Methoden nur über ein Instanz der Klasse \code{A} oder \code{B} angesprochen werden.
+        \end{itemize}
+    \end{solution}
+\end{task}
+\end{document}
