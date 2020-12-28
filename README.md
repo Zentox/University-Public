@@ -28,7 +28,7 @@ This repository is used as a collection of university-related activities.
 
 # Project structure
 
-<pre><code>&#128230;university-private
+<pre><code>&#128230;university-public
  ┣ &#128194;courses
  ┗ &#128194;templates
 </code></pre>
