@@ -1,23 +1,29 @@
 public static ArrayTuple split(double[] a) {
-	List<Integer> even = new LinkedList<>();
-	List<Double> odd = new LinkedList<>();
+	int integers = 0;
+	int doubles = 0;
 	for (double d : a) {
 		if (d == (int) d) {
-			even.add((int) d);
+			integers++;
 		} else {
-			odd.add(d);
+			doubles++;
 		}
 	}
-	int[] ev = new int[even.size()];
-	double[] od = new double[odd.size()];
-	for (int i = 0; i < ev.length; i++) {
-		ev[i] = even.get(i);
-	}
-	for (int i = 0; i < od.length; i++) {
-		od[i] = odd.get(i);
+	int[] iArr = new int[integers];
+	double[] dArr = new double[doubles];
+	integers = 0;
+	doubles = 0;
+	for (int i = 0; i < a.length; i++) {
+		double d = a[i];
+		if (d == (int) d) {
+			iArr[integers] = (int) d;
+			integers++;
+		} else {
+			dArr[doubles] = d;
+			doubles++;
+		}
 	}
 	ArrayTuple tuple = new ArrayTuple();
-	tuple.iArr = ev;
-	tuple.dArr = od;
+	tuple.iArr = iArr;
+	tuple.dArr = dArr;
 	return tuple;
 }

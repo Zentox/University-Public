@@ -127,11 +127,11 @@
         \begin{itemize}
             \item Wir können auf die folgende Attribute mit dem Objekt \code{obj} zugreifen:
                   \begin{itemize}
-                      \item \code{f}, \code{by}, \code{i} und \code{d}
+                      \item Die Attribute \code{f}, \code{by}, \code{i} und \code{d} können vom Objekt \code{obj} zugegriffen werden.
                   \end{itemize}
             \item Wir können die folgenden Methoden mit dem Objekt \code{obj} aufrufen:
                   \begin{itemize}
-                      \item \code{m1}: Sie  gibt den Wert \code{-2} zurück
+                      \item \code{m1}: Sie  gibt den Wert \code{-1} zurück.
                       \item \code{m2} der Klasse \code{B2}: Sie gibt den Wert \code{2} zurück.
                   \end{itemize}
         \end{itemize}
@@ -174,42 +174,42 @@
 
 \begin{task}[credit = \stars{2}{3}]{Statischer und dynamischer Typ}
     \lstinputlisting[style = Java]{codes/V8_Task.java}
-    \textit{Hinweis:} Nach Zeile X heißt unmittelbar nach X, noch vor Zeile X+1.
+    \textbf{Hinweis:} Nach Zeile X heißt unmittelbar nach X, noch vor Zeile X+1.
     \begin{enumerate}[label = (\arabic*)]
-        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 30?
-        \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 31?
-        \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 32?
-        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 34?
-        \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 35?
+        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 40?
+        \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 41?
+        \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 42?
+        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 44?
+        \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 45?
     \end{enumerate}
 
     \clearpage
 
     \begin{solution}
         \begin{enumerate}[label = (\arabic*)]
-            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 30?
+            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 40?
                   \begin{itemize}
                       \item Der statische und der dynamische Typ von \code{a} ist \code{Alpha}.
                       \item Der statische und der dynamische Typ von \code{b} ist \code{Beta}.
                       \item Der statische und der dynamische Typ von \code{g} ist \code{Gamma}.
                   \end{itemize}
-            \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 31?
+            \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 41?
                   \begin{itemize}
                       \item Der statische Typ von \code{a} ist \code{Alpha} und der dynamische Typ \code{Beta}.
                       \item \code{a.v} hat den Wert 2.
                   \end{itemize}
-            \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 32?
+            \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 42?
                   \begin{itemize}
                       \item \code{t} hat den Wert 11.
                       \item \code{b.v} hat den Wert 4.
                   \end{itemize}
-            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 34?
+            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 44?
                   \begin{itemize}
                       \item Der statische Typ von \code{a} ist \code{Alpha} und der dynamische Typ \code{Beta}.
-                      \item Der statische Typ von \code{a} ist \code{Beta} und der dynamische Typ \code{Gamma}.
+                      \item Der statische Typ von \code{b} ist \code{Beta} und der dynamische Typ \code{Gamma}.
                       \item \code{a.v} hat den Wert 13.
                   \end{itemize}
-            \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 35?
+            \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 45?
                   \begin{itemize}
                       \item \code{r} hat den Wert 41.
                       \item \code{b.v} hat den Wert 2.
