@@ -3,7 +3,7 @@
 
 
 # Project name
-University - Private
+University - Public
 
 # Description
 This repository is used as a collection of university-related activities.
