@@ -1,0 +1,270 @@
+\documentclass{../preamble}
+
+% Title information
+\date{07.12.2020 - 11.12.2020}
+\sheetnumber{4}
+\version{28. Dezember 2020}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\makedisclaimer
+
+\clearpage
+
+\begin{task}[credit = \stars{0}{3}]{Grundbegriffe}
+    Erklären Sie kurz in eigenen Worten die Unterschiede der folgenden Konzepte zueinander:
+    \begin{enumerate}
+        \item Klasse vs. Objekt
+        \item Objekt- vs. Klassenmethoden
+        \item Abstrakte Klassen vs. Interfaces
+        \item Überladen von Methoden vs. Überschreiben von Methoden
+    \end{enumerate}
+
+    \begin{solution}
+        \begin{enumerate}
+            \item Klasse vs. Objekt
+                  \begin{table}[h]
+                      \centering
+                      \begin{tabular}{p{22.5em}p{22.5em}}
+                          \textbf{Klasse}                                                                                                                                                                                                                                                                                                                                       & \textbf{Objekt}
+                          \\
+                          Eine Klasse ist eine Beschreibung eines Objekts mit seinen Attributen und enthält die Definitionen aller Methoden (genauer: aller Methoden die gegenüber der Basisklasse hinzukommen oder zwar in der Basisklasse schon vorhanden sind, aber überschrieben werden). Sie dient als Vorlage, aus der dann beliebig viele Objekte erzeugt werden können. & Ein Objekt ist die Instanziierung einer Klasse mit spezifischen Werten für die Attribute einer Klasse.
+                      \end{tabular}
+                  \end{table}
+            \item Objekt- vs. Klassenmethoden
+                  \begin{table}[h]
+                      \centering
+                      \begin{tabular}{p{22.5em}p{22.5em}}
+                          \textbf{Objektmethoden}                                                                       & \textbf{Klassenmethoden}
+                          \\
+                          Objektmethoden können nur mithilfe eines Objekts aufgerufen werden.                           & Klassenmethoden können direkt über den Namen der Klasse aufgerufen werden, ohne dass zuvor ein Objekt der Klasse generiert wurde.
+                          \\
+                          Objektmethoden können auf alle Attribute des Objekts zugreifen und diese Lesen und Schreiben. & Klassenmethoden werden mit dem Modifier \textcolor{keywordcolor}{static} deklariert.
+                          \\
+                          Objektmethoden sind individuell für das Objekt.
+                          \\
+                          Objektmethoden können zudem auch alle Methoden der Klasse aufrufen.                           & Klassenmethoden dürfen nur auf Klassenattribute zugreifen und nur Klassenmethoden aufrufen.
+                      \end{tabular}
+                  \end{table}
+                  \clearpage
+
+            \item Abstrakte Klassen vs. Interfaces
+                  \begin{table}[h]
+                      \centering
+                      \begin{tabular}{p{22.5em}p{22.5em}}
+                          \textbf{Abstrakte Klassen}                                                                      & \textbf{Interfaces}
+                          \\
+                          Es können keine Objekte instanziiert werden.                                                    & Es können keine Objekte instanziiert werden.
+                          \\
+                          Eine abstrakte Klasse kann implementierte Methoden enthalten.                                   & Bei einem Interface sind die Objektmethoden entweder \textcolor{keywordcolor}{default} oder nicht implementiert sein und die Attribute sind mit dem Modfier \textcolor{keywordcolor}{static final} (Konstanten) gekennzeichnet. Zudem kann ein Interface kann auch Klassenmethoden haben.
+                          \\
+                          Die Methoden und Attribute einer abstrakten Klassen können beliebige Zugriffsmodifier besitzen. & Der Zugriffsmodifier der Methoden und Attribute eines Interfaces sind immer \textcolor{keywordcolor}{public}, weshalb der Zugriffsmodifier auch weggelassen werden kann.
+                          \\
+                          Auf Klassen gibt es generell nur Einfachvererbung.                                              & Ein Interface kann mehrere Interfaces erweitern und eine Klasse kann mehrere Interfaces implementieren.
+                          \\
+                      \end{tabular}
+                  \end{table}
+            \item Überladen von Methoden vs. Überschreiben von Methoden
+                  \begin{table}[H]
+                      \centering
+                      \begin{tabular}{p{22.5em}p{22.5em}}
+                          \textbf{Überladen von Methoden}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       & \textbf{Überschreiben von Methoden}
+                          \\
+                          Überladen von Methoden heißt, dass wir mindestens zwei Methoden vom gleichem Namen innerhalb einer Klasse haben. Der Rückgabetyp und die Parameter können verschieden sein, aber die Parameterlisten müssen verschieden sein. Eine Methode wird nicht ausschließlich durch den Namen identifiziert, sondern auch über die Typen, Anzahl und Reihenfolge ihrer Argumente - ihre Signatur. Daher können mehrere Methoden mit demselben Namen in einer Klasse vorhanden sein, solange sich die Signaturen unterscheiden. & Überschreiben von Methoden heißt, dass die Methode aus der direkt abgeleiteten Klasse exakt den gleichen Namen, denselben Rückgabetyp (oder vom Subtyp) und dieselben Parameter der Methode aus der Basisklasse haben.
+                          \\
+                          Die gleichen Methodennamen können für semantisch
+                          \newline
+                          ähnliche Funktionalitäten auf unterschiedlichen
+                          \newline
+                          Datentypen verwendet werden.
+                          \newline
+                          (siehe \code{String.valueOf(...)} für \textcolor{keywordcolor}{boolean}, \textcolor{keywordcolor}{char}, ...)                                                                                                                                                                                                                                                                                                                                                                                                         & Dadurch erreicht man, dass beim Objekt der abgeleiteten Klasse die neue Implementierung (in der abgeleiteten Klasse) beim Aufruf der Methode aufgerufen wird und nicht die überschriebene Methode. Somit kann man bspw. erreichen, dass Methoden, deren Funktionalität in der abgeleiteten Klasse verändert werden soll einfach überschrieben werden, aber gleichzeitig die anderen Methoden der Oberklasse immer noch verwenden werden können. Die Unterscheidung, welche Methode verwendet wird, wird anhand des dynamischen Typs (= Typ des Objektes) getroffen. Betrachten wir folgende Fälle: Ist der dynamische Typ die abgeleitete Klasse, so wird die Methode von der abgeleiteten Klasse verwendet. Ist er hingegen die Basisklasse, so wird die Methode von der Basisklasse verwendet.
+                      \end{tabular}
+                  \end{table}
+        \end{enumerate}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Brumm, Brumm, Brumm}
+    Schreiben Sie eine Klasse \code{Car} zur Repräsentation von Autos, die folgende Anforderungen erfüllen soll:
+    \begin{itemize}
+        \item Ein Auto hat einen Namen vom Typ \textcolor{keywordcolor}{String} und einen Kilometerstand (\textit{mileage}) vom Typ \textcolor{keywordcolor}{double}. Beide Attribute sollen \textcolor{keywordcolor}{private}, nicht \textcolor{keywordcolor}{public}, sein.
+        \item Der Konstruktor soll einen \textcolor{keywordcolor}{String} als Parameter erhalten, der den Namen des Autos angibt. Der Konstruktor soll den Namen des Autos setzen und den Kilometerstand auf \(0.0\) setzen.
+        \item Schreiben Sie die Methoden \textcolor{keywordcolor}{public} \textcolor{keywordcolor}{double} \code{getMileage()} und \textcolor{keywordcolor}{public} {String} \code{getName()}. Diese liefern die entsprechenden Attribute der Klasse \code{Car} zurück.
+        \item Schreiben Sie die Methode \textcolor{keywordcolor}{public} \textcolor{keywordcolor}{void} \code{drive}(\textcolor{keywordcolor}{double} \code{distance}), die eine Distanz in Kilometern als Argument erhält und auf den alten Kilometerstand addiert.
+    \end{itemize}
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V2_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Interfaces}
+    Gegeben sei folgendes Interface:
+    \lstinputlisting[style = Java]{codes/V3_Task.java}
+    Schreiben Sie nun eine Klasse \code{C1}, die das Interface \code{I1} implementiert. Sofern im Body einer Methode eine Rückgabe erwartet wird, geben sie \textcolor{keywordcolor}{null} zurück.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V3_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{1}{3}]{Vererbung}
+    Gegeben seien folgende zwei Klasse, die sich im gleichen Package befinden:
+    \lstinputlisting[style = Java]{codes/V4_Task.java}
+    Betrachten Sie die \code{main}-Methode der Klasse \code{B2}. Auf welche Attribute können Sie mit dem Objekt \code{obj} zugreifen? Welche Methoden können Sie aufrufen und welchen Wert geben die Methoden zurück?
+
+    \begin{solution}
+        \begin{itemize}
+            \item Wir können auf die folgende Attribute mit dem Objekt \code{obj} zugreifen:
+                  \begin{itemize}
+                      \item \code{f}, \code{by}, \code{i} und \code{d}
+                  \end{itemize}
+            \item Wir können die folgenden Methoden mit dem Objekt \code{obj} aufrufen:
+                  \begin{itemize}
+                      \item \code{m1}: Sie  gibt den Wert \code{-2} zurück
+                      \item \code{m2} der Klasse \code{B2}: Sie gibt den Wert \code{2} zurück.
+                  \end{itemize}
+        \end{itemize}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Gleicher Abstand}
+    Schreiben Sie eine Methode \textcolor{keywordcolor}{static} \textcolor{keywordcolor}{boolean} \code{evenlySpaced}(\textcolor{keywordcolor}{int} \code{a}, \textcolor{keywordcolor}{int} \code{b}, \textcolor{keywordcolor}{int} \code{c}), welche genau dann \textcolor{keywordcolor}{true} zurückliefert,  wenn der Abstand zwischen dem kleinsten und dem mittleren Element genauso groß ist wie der Abstand zwischen dem mittleren und dem größten Element. Dabei kann jeder der Parameter \code{a}, \code{b} oder \code{c} das kleinste, mittlere oder größte Element sein. Die Klasse, zu der die Methode gehört, muss nicht implementiert werden.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V5_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Zahlen aneinanderreihen}
+    Schreiben Sie eine Methode \textcolor{keywordcolor}{static} \textcolor{keywordcolor}{int} \code{appendIntegers}(\textcolor{keywordcolor}{int}[] \code{a}). Die Methode bekommt ein \textcolor{keywordcolor}{int}-Array übergeben und liefert eine Zahl zurück, die entsteht wenn man alle Zahlen des übergebenen Arrays aneinanderreiht. Der Aufruf \code{appendIntegers({1,2,3})} liefert \code{123} zurück. Der Aufruf \code{appendIntegers({43,2,7777})} liefert \code{4327777} zurück. Sie dürfen nur Variablen von Typ \textcolor{keywordcolor}{int} in ihrer Implementation verwenden, keine \textcolor{keywordcolor}{Strings} oder Ähnliches. Schleifen sind natürlich erlaubt.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V6_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Zahlen einsortieren}
+    Gegeben sei folgende Klasse:
+    \lstinputlisting[style = Java]{codes/V7_Task.java}
+    Erweitern Sie diese Klasse um eine \textcolor{keywordcolor}{public}-Klassenmethode \code{ArrayTuple} \code{split}(\textcolor{keywordcolor}{double}[] \code{a}). Die Methode liefert ein neues Objekt von Typ \code{ArrayTuple} zurück, in dessen \textcolor{keywordcolor}{int}-Array sich alle ganzen Zahlen aus dem übergebenen Array \code{a} befinden. Im \textcolor{keywordcolor}{double}-Array befinden sich die restlichen Zahlen aus dem übergebenen Array.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V7_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Statischer und dynamischer Typ}
+    \lstinputlisting[style = Java]{codes/V8_Task.java}
+    \textit{Hinweis:} Nach Zeile X heißt unmittelbar nach X, noch vor Zeile X+1.
+    \begin{enumerate}[label = (\arabic*)]
+        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 30?
+        \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 31?
+        \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 32?
+        \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 34?
+        \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 35?
+    \end{enumerate}
+
+    \clearpage
+
+    \begin{solution}
+        \begin{enumerate}[label = (\arabic*)]
+            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und \code{g} nach Zeile 30?
+                  \begin{itemize}
+                      \item Der statische und der dynamische Typ von \code{a} ist \code{Alpha}.
+                      \item Der statische und der dynamische Typ von \code{b} ist \code{Beta}.
+                      \item Der statische und der dynamische Typ von \code{g} ist \code{Gamma}.
+                  \end{itemize}
+            \item Welchen statischen und dynamischen Typ hat \code{a} und welchen Wert hat \code{a.v} nach Zeile 31?
+                  \begin{itemize}
+                      \item Der statische Typ von \code{a} ist \code{Alpha} und der dynamische Typ \code{Beta}.
+                      \item \code{a.v} hat den Wert 2.
+                  \end{itemize}
+            \item Welchen Wert haben \code{t} und \code{b.v} nach Zeile 32?
+                  \begin{itemize}
+                      \item \code{t} hat den Wert 11.
+                      \item \code{b.v} hat den Wert 4.
+                  \end{itemize}
+            \item Welchen statischen und dynamischen Typ haben \code{a}, \code{b} und welchen Wert hat \code{a.v} nach Zeile 34?
+                  \begin{itemize}
+                      \item Der statische Typ von \code{a} ist \code{Alpha} und der dynamische Typ \code{Beta}.
+                      \item Der statische Typ von \code{a} ist \code{Beta} und der dynamische Typ \code{Gamma}.
+                      \item \code{a.v} hat den Wert 13.
+                  \end{itemize}
+            \item Welchen Wert haben \code{r} und \code{b.v} nach Zeile 35?
+                  \begin{itemize}
+                      \item \code{r} hat den Wert 41.
+                      \item \code{b.v} hat den Wert 2.
+                  \end{itemize}
+        \end{enumerate}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{3}{3}]{Klassen, Interfaces und Methoden}
+    \begin{subtask}
+        Schreiben Sie ein \textcolor{keywordcolor}{public}-Interface \code{A} mit einer Objektmethode \code{m1}, die Rückgabetyp \textcolor{keywordcolor}{double}, einen \textcolor{keywordcolor}{int}-Parameter \code{n} und einen \textcolor{keywordcolor}{char}-Parameter \code{c} hat.
+
+        \begin{solution}
+            \lstinputlisting[style = Java]{codes/V9_1_Solution.java}
+        \end{solution}
+    \end{subtask}
+
+    \begin{subtask}
+        Schreiben Sie ein \textcolor{keywordcolor}{public}-Interface \code{B}, das von \code{A} erbt und zusätzlich eine Objektmethode \code{m2} hat, die keine Parameter hat und einen \textcolor{keywordcolor}{String} zurückliefert.
+
+        \begin{solution}
+            \lstinputlisting[style = Java]{codes/V9_2_Solution.java}
+        \end{solution}
+    \end{subtask}
+
+    \clearpage
+
+    \begin{subtask}
+        Schreiben Sie eine \textcolor{keywordcolor}{public}-Klasse \code{XY}, die \code{A} implementiert, aber \code{m1} nicht. Klasse \code{XY} soll ein \textcolor{keywordcolor}{protected}-Attribut \code{p} vom  Typ \textcolor{keywordcolor}{long} haben sowie einen \textcolor{keywordcolor}{public}-Konstruktor  mit Parameter \code{q} vom Typ \textcolor{keywordcolor}{long}. Der Konstruktor soll \code{p} auf den Wert von \code{q} setzen. Weiter soll \code{XY} eine \textcolor{keywordcolor}{public}-Objektmethode \code{m3} mit Rückgabetyp \textcolor{keywordcolor}{void} und Parameter \code{xy} vom Typ \code{XY} haben, aber nicht implementieren.
+
+        \begin{solution}
+            \lstinputlisting[style = Java]{codes/V9_3_Solution.java}
+        \end{solution}
+    \end{subtask}
+
+    \begin{subtask}
+        Schreiben Sie eine \textcolor{keywordcolor}{public}-Klasse \code{YZ}, die von \code{XY} erbt und \code{B} implementiert. Die Methode \code{m1} soll \code{n+c+p} zurückliefern und \code{m2} den String \textcolor{stringcolor}{\grqq Hallo\grqq}. \code{m3} soll den Wert \code{p} von \code{xy} auf den Wert \code{p} des eigenen Objektes addieren. Der Konstruktor von \code{YZ} ist \textcolor{keywordcolor}{public}, hat einen \textcolor{keywordcolor}{long}-Parameter \code{r} und ruft damit den Konstruktor von \code{XY} auf.
+    \end{subtask}
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V9_4_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{3}{3}]{Jedes dritte Element}
+    Gegeben sei eine Klasse \code{X}. Schreiben Sie für diese Klasse die \textcolor{keywordcolor}{public}-Objektmethode \code{foo}. Diese hat ein Array \code{a} von Typ \textcolor{keywordcolor}{int} als formalen Parameter und liefert ein anderes Array \code{b}  vom  Typ \textcolor{keywordcolor}{int} zurück, das aus  \code{a} entsteht, indem jedes dritte Element gelöscht wird, das heißt, die Elemente von \code{a} an den Indizes \(0, 3, 6, 9, ...\) werden nicht nach \code{b} kopiert, alle anderen Elemente von \code{a} werden in derselben Reihenfolge, wie sie in \code{a} stehen, nach \code{b} kopiert. Weitere Elemente hat \code{b} nicht. Sie dürfen voraussetzen, dass \code{a} mindestens Länge \(2\) hat und ungleich \textcolor{keywordcolor}{null} ist. Sie dürfen einfach Operator \code{=} für das Kopieren von Elementen verwenden.
+    \br
+    \textit{Hinweis:} Überlegen Sie sich die Gesetzmäßigkeit, nach der die Indizes \(1, 2, 4, 5, 7, 8, ...\) in \code{a} auf die Indizes \(0, 1, 2, 3, 4, 5, ...\) in \code{b} abzubilden sind. Für die Länge von \code{b} werden Sie eine Fallunterscheidung benötigen, je nachdem, welchen Rest \code{a.length} dividiert durch \code{3} ergibt. Denken Sie auch an die letzten beiden Elemente von \code{a}.
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V10_Solution.java}
+    \end{solution}
+\end{task}
+\end{document}
