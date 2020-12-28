@@ -113,8 +113,8 @@
 %\setkomafont{subtask}{\mdseries\normalsize}
 
 % Name
-% Format Taskname Whitespace Tasknumber Subtasknumber Whitespace
-\renewcommand*{\subtaskformat}{\taskname\enskip\thetask{}.\thesubtask\enskip}
+% Format Taskname Tasknumber Subtasknumber Whitespace
+\renewcommand*{\subtaskformat}{\taskname\thetask{}.\thesubtask\enskip}
 %\renewcommand*{\subtaskformat}{\textbf{\taskname\enskip\thetask{}.\thesubtask\enskip}}
 
 %% Table of content
@@ -133,8 +133,8 @@
 \renewcaptionname{english}{\taskname}{V}
 
 % Name
-% Format Taskname Whitespace Tasknumber
-\renewcommand*{\taskformat}{\taskname\enskip\thetask{}}
+% Format Taskname Tasknumber
+\renewcommand*{\taskformat}{\taskname\thetask{}}
 %\renewcommand*{\taskformat}{\textbf{\taskname\enskip\thetask{}}}
 
 % Task seperator
