@@ -1,0 +1,117 @@
+\documentclass{../preamble}
+
+\usepackage{../fopbot}
+
+% Title information
+\date{09.11.2020 - 13.11.2020}
+\sheetnumber{0}
+\version{28. Dezember 2020}
+
+% Document
+\begin{document}
+
+\maketitle
+
+\makedisclaimer
+
+\clearpage
+
+\setcounter{task}{1}
+
+\begin{task}[credit = \stars{1}{3}]{Erste Schritte mit FopBot}
+    Öffnen Sie nun die Klasse \code{FirstStepsBot.java}. Dort finden Sie eine Stelle, welche mit \code{TODO} gekennzeichnet ist. Fügen Sie hier Ihren Code ein, der folgendes umsetzt:
+    \begin{enumerate}
+        \item Erstellen  Sie  einen  Roboter  namens \code{alice},  der  auf  der  Position (4,4) steht  und nach rechts blickt. Er hat zu Beginn drei Coins in seiner Tasche.
+        \item Lassen Sie \code{alice} nun zwei Schritte nach vorne laufen.
+        \item Drehen Sie \code{alice} nun so, dass er nach oben blickt.
+        \item Lassen Sie \code{alice} einen Schritt nach vorne laufen.
+        \item Legen Sie einen Coin von \code{alice} ab.
+        \item Lassen Sie \code{alice} zwei Schritte nach vorne laufen.
+        \item Legen Sie zwei Coins mit \code{alice} ab.
+        \item Drehen Sie \code{alice} nun so, dass er nach links blickt.
+        \item Lassen Sie \code{alice} zwei Schritte nach vorne laufen.
+        \item Lassen Sie \code{alice} den Coin aufheben.
+        \item Lassen Sie \code{alice} einen Schritt nach vorne laufen.
+    \end{enumerate}
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V4_Solution.java}
+    \end{solution}
+\end{task}
+
+\clearpage
+
+\begin{task}[credit = \stars{2}{3}]{Quadrat}
+    Öffnen Sie nun die \code{KlasseSquare.java}. Dort finden Sie eine Stelle, welche mit \code{TODO} gekennzeichnet ist. Fügen Sie hier Ihren Code ein, der folgendes umsetzt:
+    \br
+    Zu Beginn platzieren Sie zwei Roboter in der Welt, von denen beide \(20\) Coins besitzen. Der erste Roboter befindet sich in Position \((0,0)\) und blickt nach rechts, der andere befindet sich in Position (\(9, 9)\) und blickt nach links. Ihre Aufgabe ist es nun, ein (nicht ausgefülltes) Quadrat mithilfe der beiden Roboter, durch abgelegen von Coins, zu zeichnen. Dabei soll sich am Ende des Programms jeder Roboter im Startpunkt des jeweils anderen befinden. In Abbildung \ref{fig:V5} finden Sie einen Vorher-Nachher-Vergleich dieser Situation.
+
+    \begin{figure}[h]
+        \centering
+        \scalebox{0.6}{
+            \begin{FOPBotWorld}{10}{10}
+                \path (0,0) pic[rotate = 180] {Trianglebot};
+                \path (9,9) pic {Trianglebot};
+            \end{FOPBotWorld}
+            \hspace*{-2.25cm}
+            \begin{FOPBotWorld}{10}{10}
+                \foreach \x/\y in {
+                        {0/0},
+                        {0/1},
+                        {0/2},
+                        {0/3},
+                        {0/4},
+                        {0/5},
+                        {0/6},
+                        {0/7},
+                        {0/8},
+                        {0/9},
+                        {9/0},
+                        {9/1},
+                        {9/2},
+                        {9/3},
+                        {9/4},
+                        {9/5},
+                        {9/6},
+                        {9/7},
+                        {9/8},
+                        {9/9},
+                        {1/0},
+                        {2/0},
+                        {3/0},
+                        {4/0},
+                        {5/0},
+                        {6/0},
+                        {7/0},
+                        {8/0},
+                        {1/9},
+                        {2/9},
+                        {3/9},
+                        {4/9},
+                        {5/9},
+                        {6/9},
+                        {7/9},
+                        {8/9},
+                    }{
+                        \putcoin{\x}{\y}{1}
+                    }
+                \path (0,0) pic[rotate = 270] {Trianglebot};
+                \path (9,9) pic[rotate = 90] {Trianglebot};
+            \end{FOPBotWorld}
+        }
+
+        \caption{Vorher-Nachher-Vergleich}
+        \label{fig:V5}
+    \end{figure}
+
+    \textbf{Verbindliche Anforderung:} Das Laufen und Ablegen von Coins darf nur innerhalb einer Schleife umgesetzt werden, in der in jedem Durchlauf jeder der Roboter genau einen Coin ablegt! Lediglich das Drehen der Roboter darf außerhalb einer Schleife geschehen.
+
+    \clearpage
+
+    \begin{solution}
+        \lstinputlisting[style = Java]{codes/V5_Solution.java}
+    \end{solution}
+\end{task}
+\end{document}
