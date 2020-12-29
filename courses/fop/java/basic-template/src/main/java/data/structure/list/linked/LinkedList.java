@@ -78,6 +78,21 @@ public class LinkedList<E> implements List<E> {
     }
 
     @Override
+    public E remove(final int index) {
+        throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean remove(final Object o) {
+        throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
+    public boolean removeAll(final List<?> l) {
+        throw new UnsupportedOperationException("Not implemented!");
+    }
+
+    @Override
     public int size() {
         throw new UnsupportedOperationException("Not implemented!");
     }

@@ -39,7 +39,7 @@ public interface List<E> extends Iterable<E> {
      * @throws NullPointerException          if the specified list contains one or more null elements
      * @throws UnsupportedOperationException if the method is not implemented
      * @see #add(Object)
-     * @see #iterator()
+     * @see Iterator
      */
     boolean addAll(List<? extends E> l);
 
@@ -87,7 +87,7 @@ public interface List<E> extends Iterable<E> {
      *                                       specified list is null
      * @throws UnsupportedOperationException if the method is not implemented
      * @see #contains(Object)
-     * @see #iterator()
+     * @see Iterator
      */
     boolean containsAll(List<?> l);
 
@@ -116,6 +116,52 @@ public interface List<E> extends Iterable<E> {
      * @see Iterable
      */
     Iterator<E> iterator();
+
+    /**
+     * Removes the element at the specified position in this list.  Shifts any subsequent elements to the left
+     * (subtracts one from their indices).  Returns the element that was removed from the list.
+     *
+     * @param index the index of the element to be removed
+     *
+     * @return the element previously at the specified position
+     *
+     * @throws UnsupportedOperationException if the method is not implemented
+     * @throws IndexOutOfBoundsException     if the index is out of range ({@code index < 0 || index >= size()})
+     */
+    E remove(int index);
+
+    /**
+     * Removes the first occurrence of the specified element from this list, if it is present.  If this list does not
+     * contain the element, it is unchanged.  More formally, removes the element with the lowest index {@code i} such
+     * that {@code Objects.equals(o, get(i))} (if such an element exists).  Returns {@code true} if this list contained
+     * the specified element (or equivalently, if this list changed as a result of the call).
+     *
+     * @param o element to be removed from this list, if present
+     *
+     * @return {@code true} if this list contained the specified element
+     *
+     * @throws ClassCastException            if the type of the specified element is incompatible with this list
+     * @throws NullPointerException          if the specified element is null
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    boolean remove(Object o);
+
+    /**
+     * Removes from this list all of its elements that are contained in the specified collection
+     *
+     * @param l collection containing elements to be removed from this list
+     *
+     * @return {@code true} if this list changed as a result of the call
+     *
+     * @throws ClassCastException            if the class of an element of this list is incompatible with the specified
+     *                                       list
+     * @throws NullPointerException          if this list contains a null element
+     * @throws UnsupportedOperationException if the method is not implemented
+     * @see #remove(Object)
+     * @see #contains(Object)
+     * @see Iterator
+     */
+    boolean removeAll(List<?> l);
 
     /**
      * Returns the number of elements in this list.  If this list contains more than {@code Integer.MAX_VALUE} elements,
