@@ -39,7 +39,7 @@ Maintainers:
 - [Zentox](https://github.com/Zentox)
 
 # Section structure
-<pre><code>&#128194;basic-solution
+<pre><code>&#128194;basic-template
  ┣ &#128194;doc
  ┣ &#128194;res
  ┣ &#128194;src
