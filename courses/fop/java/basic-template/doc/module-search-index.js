@@ -1,0 +1,1 @@
+moduleSearchIndex = [{"l":"basic.template.main"}]
