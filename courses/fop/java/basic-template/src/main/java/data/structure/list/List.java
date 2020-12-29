@@ -1,6 +1,9 @@
 package data.structure.list;
 
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 /**
  * An ordered collection (also known as a <i>sequence</i>). The user of this interface has precise control over where in
@@ -99,6 +102,66 @@ public interface List<E> extends Iterable<E> {
     void clear();
 
     /**
+     * Compares the specified object with this list for equality.  Returns {@code true} if and only if the specified
+     * object is also a list, both lists have the same size, and all corresponding pairs of elements in the two lists
+     * are <i>equal</i>.  (Two elements {@code e1} and {@code e2} are <i>equal</i> if {@code Objects.equals(e1, e2)}.)
+     * In other words, two lists are defined to be equal if they contain the same elements in the same order.  This
+     * definition ensures that the equals method works properly across different implementations of the {@code List}
+     * interface.
+     *
+     * @param o the object to be compared for equality with this list
+     *
+     * @return {@code true} if the specified object is equal to this list
+     */
+    boolean equals(Object o);
+
+    /**
+     * Returns the hash code value for this list.  The hash code of a list is defined to be the result of the following
+     * calculation:
+     * <pre>{@code
+     *     int hashCode = 1;
+     *     for (E e : list)
+     *         hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
+     * }</pre>
+     * This ensures that {@code list1.equals(list2)} implies that {@code list1.hashCode()==list2.hashCode()} for any two
+     * lists, {@code list1} and {@code list2}, as required by the general contract of {@link Object#hashCode}.
+     *
+     * @return the hash code value for this list
+     *
+     * @see Object#equals(Object)
+     * @see #equals(Object)
+     */
+    int hashCode();
+
+    /**
+     * Returns the element at the specified position in this list.
+     *
+     * @param index index of the element to return
+     *
+     * @return the element at the specified position in this list
+     *
+     * @throws IndexOutOfBoundsException     if the index is out of range ({@code index < 0 || index >= size()})
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    E get(int index);
+
+    /**
+     * Returns the index of the first occurrence of the specified element in this list, or -1 if this list does not
+     * contain the element. More formally, returns the lowest index {@code i} such that {@code Objects.equals(o,
+     * get(i))}, or -1 if there is no such index.
+     *
+     * @param o element to search for
+     *
+     * @return the index of the first occurrence of the specified element in this list, or -1 if this list does not
+     *         contain the element
+     *
+     * @throws ClassCastException            if the type of the specified element is incompatible with this list
+     * @throws NullPointerException          if the specified element is null
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    int indexOf(Object o);
+
+    /**
      * Returns {@code true} if this list contains no elements.
      *
      * @return {@code true} if this list contains no elements
@@ -116,6 +179,22 @@ public interface List<E> extends Iterable<E> {
      * @see Iterable
      */
     Iterator<E> iterator();
+
+    /**
+     * Returns the index of the last occurrence of the specified element in this list, or -1 if this list does not
+     * contain the element. More formally, returns the highest index {@code i} such that {@code Objects.equals(o,
+     * get(i))}, or -1 if there is no such index.
+     *
+     * @param o element to search for
+     *
+     * @return the index of the last occurrence of the specified element in this list, or -1 if this list does not
+     *         contain the element
+     *
+     * @throws ClassCastException            if the type of the specified element is incompatible with this list
+     * @throws NullPointerException          if the specified element is null
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    int lastIndexOf(Object o);
 
     /**
      * Removes the element at the specified position in this list.  Shifts any subsequent elements to the left
@@ -147,9 +226,9 @@ public interface List<E> extends Iterable<E> {
     boolean remove(Object o);
 
     /**
-     * Removes from this list all of its elements that are contained in the specified collection
+     * Removes from this list all of its elements that are contained in the specified list
      *
-     * @param l collection containing elements to be removed from this list
+     * @param l list containing elements to be removed from this list
      *
      * @return {@code true} if this list changed as a result of the call
      *
@@ -164,6 +243,63 @@ public interface List<E> extends Iterable<E> {
     boolean removeAll(List<?> l);
 
     /**
+     * Removes all of the elements of this list that satisfy the given predicate.  Errors or runtime exceptions
+     * thrown during iteration or by the predicate are relayed to the caller.
+     *
+     * @param filter a predicate which returns {@code true} for elements to be removed
+     *
+     * @return {@code true} if any elements were removed
+     *
+     * @throws NullPointerException          if the specified filter is null
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    boolean removeIf(Predicate<? super E> filter);
+
+    /**
+     * Replaces each element of this list with the result of applying the operator to that element. Errors or runtime
+     * exceptions thrown by the operator are relayed to the caller.
+     *
+     * @param operator the operator to apply to each element
+     *
+     * @throws NullPointerException          if the specified operator is null or if the operator result is a null
+     *                                       value
+     * @throws UnsupportedOperationException if the method is not implemented
+     * @see Iterator
+     */
+    void replaceAll(UnaryOperator<E> operator);
+
+    /**
+     * Retains only the elements in this list that are contained in the specified list.  In other words, removes from
+     * this list all of its elements that are not contained in the specified list.
+     *
+     * @param l list containing elements to be retained in this list
+     *
+     * @return {@code true} if this list changed as a result of the call
+     *
+     * @throws ClassCastException            if the class of an element of this list is incompatible with the specified
+     *                                       list
+     * @throws NullPointerException          if this list contains a null element
+     * @throws UnsupportedOperationException if the method is not implemented
+     * @see #remove(Object)
+     * @see #contains(Object)
+     */
+    boolean retainAll(List<?> l);
+
+    /**
+     * Replaces the element at the specified position in this list with the specified element.
+     *
+     * @param index   index of the element to replace
+     * @param element element to be stored at the specified position
+     *
+     * @return the element previously at the specified position list
+     *
+     * @throws NullPointerException          if the specified element is null
+     * @throws IndexOutOfBoundsException     if the index is out of range ({@code index < 0 || index >= size()})
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    E set(int index, E element);
+
+    /**
      * Returns the number of elements in this list.  If this list contains more than {@code Integer.MAX_VALUE} elements,
      * returns {@code Integer.MAX_VALUE}.
      *
@@ -172,6 +308,50 @@ public interface List<E> extends Iterable<E> {
      * @throws UnsupportedOperationException if the method is not implemented
      */
     int size();
+
+    /**
+     * Sorts this list according to the order induced by the specified {@link Comparator}.  The sort is <i>stable</i>:
+     * this method must not reorder equal elements.
+     *
+     * <p>All elements in this list must be <i>mutually comparable</i> using the
+     * specified comparator (that is, {@code c.compare(e1, e2)} must not throw a {@code ClassCastException} for any
+     * elements {@code e1} and {@code e2} in the list).
+     *
+     * <p>If the specified comparator is {@code null} then all elements in this
+     * list must implement the {@link Comparable} interface and the elements' {@linkplain Comparable natural ordering}
+     * should be used.
+     *
+     * @param c the {@code Comparator} used to compare list elements. A {@code null} value indicates that the elements'
+     *          {@linkplain Comparable natural ordering} should be used
+     *
+     * @throws ClassCastException            if the list contains elements that are not
+     *                                       <i>mutually comparable</i> using the specified comparator
+     * @throws IllegalArgumentException      if the comparator is found to violate the {@link Comparator} contract
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    void sort(Comparator<? super E> c);
+
+    /**
+     * Returns a view of the portion of this list between the specified {@code fromIndex}, inclusive, and {@code
+     * toIndex}, exclusive.  (If {@code fromIndex} and {@code toIndex} are equal, the returned list is empty.)  The
+     * returned list is backed by this list, so non-structural changes in the returned list are reflected in this list,
+     * and vice-versa.
+     * <p>
+     * The semantics of the list returned by this method become undefined if the backing list (i.e., this list) is
+     * <i>structurally modified</i> in any way other than via the returned list.  (Structural modifications are those
+     * that change the size of this list, or otherwise perturb it in such a fashion that iterations in progress may
+     * yield incorrect results.)
+     *
+     * @param fromIndex low endpoint (inclusive) of the subList
+     * @param toIndex   high endpoint (exclusive) of the subList
+     *
+     * @return a view of the specified range within this list
+     *
+     * @throws IndexOutOfBoundsException     for an illegal endpoint index value ({@code fromIndex < 0 || toIndex > size
+     *                                       || fromIndex > toIndex})
+     * @throws UnsupportedOperationException if the method is not implemented
+     */
+    List<E> subList(int fromIndex, int toIndex);
 
     /**
      * Returns an array containing all of the elements in this list in proper sequence (from first to last element).
