@@ -1,10 +1,10 @@
 [![LaTeX](https://img.shields.io/badge/Programming%20Language-LaTeX-blue)](https://www.latex-project.org/)
 [![LPPL](https://img.shields.io/badge/License-LPPL%20Version%201.3c-orange)](https://www.latex-project.org/lppl/)
 
-[![TUDa-CI](https://img.shields.io/badge/Programming%20Language-Java-blue.svg)](https://www.oracle.com/java/)
-[![TUDa-CI](https://img.shields.io/badge/Programming%20Language-Racket-blue.svg)](https://docs.racket-lang.org/htdp-langs/advanced.html)
+[![Java](https://img.shields.io/badge/Programming%20Language-Java-blue.svg)](https://www.oracle.com/java/)
+[![Racket](https://img.shields.io/badge/Programming%20Language-Racket-blue.svg)](https://docs.racket-lang.org/htdp-langs/advanced.html)
 
-[![Fop WiSe 2020/2021](https://img.shields.io/badge/Functional%20and%20object--oriented%20programming%20concepts-Wintersemester%202020%2F2021-blue)](https://moodle.informatik.tu-darmstadt.de/course/view.php?id=945)
+[![Fop WiSe 2020/2021](https://img.shields.io/badge/Fop-WiSe%202020%2F2021-blue)](https://moodle.informatik.tu-darmstadt.de/course/view.php?id=945)
 
 [![TU Darmstadt](https://img.shields.io/badge/TU-Darmstadt-blue.svg)](https://www.tu-darmstadt.de/index.en.jsp)
 [![TUDa-CI](https://img.shields.io/badge/CTAN-TUDa--CI-blue.svg)](https://ctan.org/pkg/tuda-ci?lang=en)
@@ -16,7 +16,7 @@
 
 # Section name
 Functional and object-oriented programming concepts - Exercise
-- Wintersemester 2020/2021
+- Winter semester 2020/2021
 
 # Description
 This directory contains unofficial solutions to the exercises from the winter semester 2020/2021.
