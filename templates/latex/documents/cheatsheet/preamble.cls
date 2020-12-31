@@ -28,7 +28,6 @@
     justification = centering
 ]{caption}
 
-
 % Expl3
 \RequirePackage{expl3}
 
