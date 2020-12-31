@@ -1,6 +1,6 @@
 %%% Identification
 
-\def\fileversion{1.00}
+\def\fileversion{1.01}
 \def\filedate{2020/12/25}
 
 % Sets the LaTeX version for the package to work.
@@ -21,7 +21,7 @@
 \keys_define:nn {pseudocode}{
 	noend .bool_gset:N  = \g_pseudocode_noend_bool,
 	noend .default:n = true,
-	noend .initial:n  = true,
+	noend .initial:n  = false,
 }
 
 % Needs to be processed before loading the package algpseudocode
@@ -43,6 +43,10 @@
 %%% Settings
 
 %% Algorithm
+
+% Comment
+\algnewcommand{\LineComment}[1]{\State \(\triangleright\) #1}
+
 % For Each Loop
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
