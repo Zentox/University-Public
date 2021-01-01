@@ -95,6 +95,9 @@
 \newcommand*{\twodigits}[1]{\ifnum #1 < 10 0#1\else #1\fi}
 
 %% Paragraph
+% Indent
+\setlength{\parindent}{0pt}
+
 % Line break and no indent
 \let\oldparagraph\paragraph
 \renewcommand*{\paragraph}[1]{\oldparagraph{#1}\hfill}

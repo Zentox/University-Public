@@ -146,6 +146,10 @@
 %% Page
 \pagestyle{empty}
 
+%% Paragraph
+% Indent
+\setlength{\parindent}{0pt}
+
 %% Section
 \titleformat*{\section}{\small\bfseries}
 \titleformat*{\subsection}{\small\bfseries}
