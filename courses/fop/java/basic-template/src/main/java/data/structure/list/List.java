@@ -280,11 +280,10 @@ public interface List<E> extends Iterable<E> {
      *                                       list
      * @throws NullPointerException          if this list contains a null element
      * @throws UnsupportedOperationException if the method is not implemented
-     * @see #remove(Object)
      * @see #contains(Object)
      */
     boolean retainAll(List<?> l);
-
+    
     /**
      * Replaces the element at the specified position in this list with the specified element.
      *

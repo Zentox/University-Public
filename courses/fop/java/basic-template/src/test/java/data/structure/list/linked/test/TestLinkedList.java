@@ -12,15 +12,19 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import resources.Resources;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
+import java.util.stream.IntStream;
 
 /**
  * Test cases for the class {@code LinkedList}.
@@ -193,6 +197,74 @@ final class TestLinkedList {
         this.list = new LinkedList<>();
         this.head = getHead(list);
         this.nil = getNil(list);
+    }
+
+    /**
+     * Test case whether the operation is successful with an non empty list.
+     *
+     * @param value path of the file and the element of numbers in the list
+     */
+    @DisplayName("Test: Non empty list - remove(Object)")
+    @ParameterizedTest(name = "List with {0} elements.")
+    @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+    void testNonEmptyListObject(final String value) {
+        try {
+            final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+            final String[] lines = lines(path);
+            if (lines == null) {
+                return;
+            }
+            for (int i = 0; i < lines.length; i++) {
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                Assertions.assertTrue(list.remove(String.valueOf(i)), "The list should change after a removal.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (int j = 0; p != nil; j++) {
+                    if (i == j) {
+                        continue;
+                    }
+                    Assertions.assertEquals(lines[j], p.key(), "The position of the element is wrong.");
+                    p = p.next();
+                }
+            }
+        } catch (UnsupportedOperationException e) {
+            Assertions.fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Test case whether the operation is successful with an non empty list.
+     *
+     * @param value path of the file and the element of numbers in the list
+     */
+    @DisplayName("Test: Non empty list does not contain element - remove(Object)")
+    @ParameterizedTest(name = "List with {0} elements.")
+    @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+    void testNonEmptyListObjectNot(final String value) {
+        try {
+            final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+            final String[] lines = lines(path);
+            if (lines == null) {
+                return;
+            }
+            final Node<String> head = parse(lines);
+            setHead(list, head);
+            for (int i = 0; i < lines.length; i++) {
+                Assertions.assertFalse(list.remove(Integer.valueOf(i + 10000000)), "The list should change after a removal.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (int j = 0; p != nil; p = p.next(), j++) {
+                    Assertions.assertEquals(lines[j], p.key(), "The position of the element is wrong.");
+                }
+            }
+        } catch (UnsupportedOperationException e) {
+            Assertions.fail(e.getMessage());
+        }
     }
 
     /**
@@ -1120,6 +1192,20 @@ final class TestLinkedList {
         @DisplayName("Test: Empty list - lastIndexOf")
         @ParameterizedTest(name = "Get element at index {0}.")
         @ValueSource(ints = {-52, -5, -2, 1, 23, 54, 65474, 3424325, 325324113})
+        void testEmptyListLastIndex(final int value) {
+            try {
+                Assertions.assertEquals(-1, list.indexOf(value), "An empty list does not contain any elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @DisplayName("Test: Empty list - lastIndexOf")
+        @ParameterizedTest(name = "Get element at index {0}.")
+        @ValueSource(ints = {-52, -5, -2, 1, 23, 54, 65474, 3424325, 325324113})
         void testEmptyListLastIndexOfException(final int value) {
             try {
                 Assertions.assertEquals(-1, list.indexOf(value), "An empty list does not contain any elements.");
@@ -1174,23 +1260,9 @@ final class TestLinkedList {
                 }
                 final Node<String> head = parse(lines);
                 setHead(list, head);
-                for(int i = 0; i < lines.length; i++){
+                for (int i = 0; i < lines.length; i++) {
                     Assertions.assertEquals(lines[i], list.get(i), String.format("Element at index %d does not match.", i));
                 }
-            } catch (UnsupportedOperationException e) {
-                Assertions.fail(e.getMessage());
-            }
-        }
-
-        /**
-         * Test case whether the operation is successful with an empty list.
-         */
-        @DisplayName("Test: Empty list - lastIndexOf")
-        @ParameterizedTest(name = "Get element at index {0}.")
-        @ValueSource(ints = {-52, -5, -2, 1, 23, 54, 65474, 3424325, 325324113})
-        void testEmptyListLastIndex(final int value) {
-            try {
-                Assertions.assertEquals(-1, list.indexOf(value), "An empty list does not contain any elements.");
             } catch (UnsupportedOperationException e) {
                 Assertions.fail(e.getMessage());
             }
@@ -1215,7 +1287,7 @@ final class TestLinkedList {
                 setHead(list, head);
                 int random = 0;
                 final int bound = Integer.parseInt(value);
-                while (random != 0) {
+                while (random <= 0 && random < bound) {
                     random = ThreadLocalRandom.current().nextInt(-bound, bound * 2);
                 }
                 final int index = random;
@@ -1314,6 +1386,7 @@ final class TestLinkedList {
      *     <li>{@code remove(int)}</li>
      *     <li>{@code remove(Object)}</li>
      *     <li>{@code removeAll(List)}</li>
+     *     <li>{@code removeIf(Predicate)}</li>
      * </ul>
      *
      * @author Nhan Huynh
@@ -1321,6 +1394,7 @@ final class TestLinkedList {
      * @see LinkedList#remove(int)
      * @see LinkedList#remove(Object)
      * @see LinkedList#removeAll(List)
+     * @see LinkedList#removeIf(Predicate)
      */
     @Nested
     @DisplayName("Test: remove")
@@ -1342,6 +1416,30 @@ final class TestLinkedList {
 
         /**
          * Test case whether the operation is successful with an empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Empty list - removeAll(List)")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testEmptyListAll(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                LinkedList<String> l = new LinkedList<>();
+                setHead(l, head);
+                Assertions.assertFalse(list.removeAll(l), "We cannot remove elements from an empty list.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an empty list.
          */
         @DisplayName("Test: Empty list - Exception")
         @ParameterizedTest(name = "Access the index {0} from an empty list.")
@@ -1349,6 +1447,19 @@ final class TestLinkedList {
         void testEmptyListException(final int value) {
             try {
                 Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.remove(value), String.format("We cannot access an index (%d) of an empty list.", value));
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @Test
+        @DisplayName("Test: Empty list - removeIf(Predicate)")
+        void testEmptyListIf() {
+            try {
+                Assertions.assertFalse(list.removeIf(node -> node.length() > 1), "We cannot remove elements from an empty list.");
             } catch (UnsupportedOperationException e) {
                 Assertions.fail(e.getMessage());
             }
@@ -1406,6 +1517,86 @@ final class TestLinkedList {
         }
 
         /**
+         * Test case whether the operation is successful with a non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list - removeAll(List)")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListAll(final String value) {
+            try {
+                final String pathHead = String.format("%s%d", PATH_TEST_INPUT, 10000);
+                final String[] linesHead = lines(pathHead);
+                if (linesHead == null) {
+                    return;
+                }
+                Node<String> head = parse(linesHead);
+                setHead(list, head);
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                head = parse(lines);
+                LinkedList<String> l = new LinkedList<>();
+                setHead(l, head);
+                Assertions.assertTrue(list.removeAll(l), "Elements should be removed. THat means that the list was changed.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (int i = lines.length; p != nil && i < linesHead.length; p = p.next(), i++) {
+                    Assertions.assertEquals(linesHead[i], p.key(), String.format("Element does not match at index %d.", i));
+                }
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with a non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list without removing elements - removeALl(List)")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListAllNot(final String value) {
+            try {
+                final String pathHead = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] linesHead = lines(pathHead);
+                if (linesHead == null) {
+                    return;
+                }
+                Node<String> head = parse(linesHead);
+                setHead(list, head);
+                final String path = String.format("%s%s%s%s", Resources.TEST_DIRECTORY, PATH_TEST_SOURCE, "remove/all/", value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                LinkedList<String> l = new LinkedList<>();
+                head = parse(lines);
+                setHead(l, head);
+                Assertions.assertFalse(list.removeAll(l), "Both list contains different elements. That means that the list must be unchanged after this operation.");
+                int i = 0;
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (; p != nil && i < linesHead.length; p = p.next(), i++) {
+                    Assertions.assertEquals(linesHead[i], p.key(), String.format("Element at index %d does not match.", i));
+                }
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+                Assertions.assertEquals(i, linesHead.length, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
          * Test case whether the operation is successful with an non empty list.
          *
          * @param value path of the file and the element of numbers in the list
@@ -1435,35 +1626,307 @@ final class TestLinkedList {
         }
 
         /**
-         * Test case whether the operation is successful with an non empty list.
+         * Test case whether the operation is successful with a non empty list.
          *
          * @param value path of the file and the element of numbers in the list
          */
-        @DisplayName("Test: Non empty list - remove(Object)")
+        @DisplayName("Test: Non empty list - removeIf(Predicate) ")
         @ParameterizedTest(name = "List with {0} elements.")
         @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
-        void testNonEmptyListObject(final String value) {
+        void testNonEmptyListIf(final String value) {
             try {
                 final String path = String.format("%s%s", PATH_TEST_INPUT, value);
                 final String[] lines = lines(path);
                 if (lines == null) {
                     return;
                 }
-                for (int i = 0; i < lines.length; i++) {
-                    final Node<String> head = parse(lines);
-                    setHead(list, head);
-                    Assertions.assertTrue(list.remove(String.valueOf(i)), "The list should change after a removal.");
-                    Node<String> p = getHead(list);
-                    if (p == null) {
-                        return;
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                Assertions.assertTrue(list.removeIf(node -> node.length() < 2), "Elements should be removed. That means the list was changed.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (int i = 10; p != nil && i < lines.length; p = p.next(), i++) {
+                    Assertions.assertEquals(lines[i], p.key(), String.format("Element does not match at index %d.", i));
+                }
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with a non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list without removing elements - removeIf(Predicate)")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListIfNot(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                Assertions.assertFalse(list.removeIf(node -> node.equals("Test")), "EPredicate does not fulfill. That means the list remains unchanged after this operation.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                int i = 0;
+                for (; p != nil && i < lines.length; p = p.next(), i++) {
+                    Assertions.assertEquals(lines[i], p.key(), String.format("Element does not match at index %d.", i));
+                }
+                Assertions.assertEquals(i, lines.length, "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Test case for the operation {@code replace}. Testing the following methods:
+     * <ul>
+     *     <li>{@code replaceAll(UnaryOperator) }</li>
+     * </ul>
+     *
+     * @author Nhan Huynh
+     * @version 1.0.0
+     * @see LinkedList#replaceAll(UnaryOperator)
+     */
+    @Nested
+    @DisplayName("Test: replace")
+    @TestMethodOrder(MethodOrderer.MethodName.class)
+    class TestReplace {
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @DisplayName("Test: Empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testEmptyList() {
+            try {
+                final UnaryOperator<String> operator = s -> s + s;
+                list.replaceAll(operator);
+                Assertions.assertSame(nil, head, "The elements of an empty list cannot be replaced.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyList(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                final UnaryOperator<String> operator = s -> s + s;
+                list.replaceAll(operator);
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                int i = 0;
+                for (; p != nil && i < lines.length; p = p.next(), i++) {
+                    String expected = lines[i] + lines[i];
+                    Assertions.assertEquals(expected, p.key(), String.format("The element at index %d does not match.", i));
+                }
+                Assertions.assertEquals(i, lines.length, "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Test case for the operation {@code retain}. Testing the following methods:
+     * <ul>
+     *     <li>{@code retainAll(List) }</li>
+     * </ul>
+     *
+     * @author Nhan Huynh
+     * @version 1.0.0
+     * @see LinkedList#retainAll(List)
+     */
+    @Nested
+    @DisplayName("Test: retain")
+    @TestMethodOrder(MethodOrderer.MethodName.class)
+    class TestRetain {
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testEmptyList(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                LinkedList<String> l = new LinkedList<>();
+                setHead(l, head);
+                Assertions.assertFalse(list.retainAll(l), "An empty list cannot retain anything. No changes.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000"})
+        void testNonEmptyList(final String value) {
+            try {
+                final String pathHead = String.format("%s%d", PATH_TEST_INPUT, 10000);
+                final String[] linesHead = lines(pathHead);
+                if (linesHead == null) {
+                    return;
+                }
+                Node<String> head = parse(linesHead);
+                setHead(list, head);
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                head = parse(lines);
+                LinkedList<String> l = new LinkedList<>();
+                setHead(l, head);
+                Assertions.assertTrue(list.retainAll(l), "Not all elements should be retained. Some changes should be made.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                int i = 0;
+                for (; p != nil && i < lines.length; p = p.next(), i++) {
+                    Assertions.assertEquals(lines[i], p.key(), String.format("The element at index %d does not match.", i));
+                }
+                Assertions.assertEquals(i, lines.length, "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListRetainAll(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                LinkedList<String> l = new LinkedList<>();
+                setHead(l, head);
+                Assertions.assertFalse(list.retainAll(l), "All elements should be retained. No changes.");
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                int i = 0;
+                for (; p != nil && i < lines.length; p = p.next(), i++) {
+                    Assertions.assertEquals(lines[i], p.key(), String.format("The element at index %d does not match.", i));
+                }
+                Assertions.assertEquals(i, lines.length, "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Test case for the operation {@code set}. Testing the following methods:
+     * <ul>
+     *     <li>{@code set(int, Object) }</li>
+     * </ul>
+     *
+     * @author Nhan Huynh
+     * @version 1.0.0
+     * @see LinkedList#set(int, Object)
+     */
+    @Nested
+    @DisplayName("Test: get")
+    @TestMethodOrder(MethodOrderer.MethodName.class)
+    class TestSet {
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @DisplayName("Test: Empty list")
+        @ParameterizedTest(name = "Get element at index {0}")
+        @ValueSource(ints = {-421, -5, -2, 0, 1, 241, 4214, 4214, 53532})
+        void testEmptyListException(final int value) {
+            try {
+                Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.set(value, String.valueOf(value)), "We cannot access an index when the list is empty.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list with invalid index access")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListInvalidIndex(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                final int bound = Integer.parseInt(value);
+                for (int i = 0; i < bound; i++) {
+                    int random = 0;
+                    while (0 <= random && random < bound) {
+                        random = ThreadLocalRandom.current().nextInt(-bound, bound * 2);
                     }
-                    for (int j = 0; p != nil; j++) {
-                        if (i == j) {
-                            continue;
-                        }
-                        Assertions.assertEquals(lines[j], p.key(), "The position of the element is wrong.");
-                        p = p.next();
-                    }
+                    final int index = random;
+                    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.set(index, value), String.format("Index %d is out of bounds [0, %s].", index, value));
                 }
             } catch (UnsupportedOperationException e) {
                 Assertions.fail(e.getMessage());
@@ -1475,10 +1938,10 @@ final class TestLinkedList {
          *
          * @param value path of the file and the element of numbers in the list
          */
-        @DisplayName("Test: Non empty list does not contain element - remove(Object)")
+        @DisplayName("Test: Non empty list with valid index access")
         @ParameterizedTest(name = "List with {0} elements.")
         @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
-        void testNonEmptyListObjectNot(final String value) {
+        void testNonEmptyListValidIndex(final String value) {
             try {
                 final String path = String.format("%s%s", PATH_TEST_INPUT, value);
                 final String[] lines = lines(path);
@@ -1487,16 +1950,18 @@ final class TestLinkedList {
                 }
                 final Node<String> head = parse(lines);
                 setHead(list, head);
-                for (int i = 0; i < lines.length; i++) {
-                    Assertions.assertFalse(list.remove(Integer.valueOf(i + 10000000)), "The list should change after a removal.");
-                    Node<String> p = getHead(list);
-                    if (p == null) {
-                        return;
-                    }
-                    for (int j = 0; p != nil; p = p.next(), j++) {
-                        Assertions.assertEquals(lines[j], p.key(), "The position of the element is wrong.");
-                    }
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
                 }
+                final String key = "Hello";
+                int i = 0;
+                for (; p != nil && i < lines.length; p = p.next(), i++) {
+                    list.set(i, key);
+                    Assertions.assertEquals(key, p.key(), String.format("Element at index %d does not match.", i));
+                }
+                Assertions.assertEquals(i, lines.length, "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
             } catch (UnsupportedOperationException e) {
                 Assertions.fail(e.getMessage());
             }
@@ -1549,6 +2014,222 @@ final class TestLinkedList {
                 final Node<String> head = parse(lines);
                 setHead(list, head);
                 Assertions.assertEquals(Integer.parseInt(value), list.size(), String.format("A list with %s elements must return the size of %s when the operation is called", value, value));
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Test case for the operation {@code sort}. Testing the following methods:
+     * <ul>
+     *     <li>{@code sort(Comparator) }</li>
+     * </ul>
+     *
+     * @author Nhan Huynh
+     * @version 1.0.0
+     * @see LinkedList#sort(Comparator)
+     */
+    @Nested
+    @DisplayName("Test: sort")
+    @TestMethodOrder(MethodOrderer.MethodName.class)
+    class TestSort {
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @Test
+        @DisplayName("Test: Empty list")
+        void testEmptyList() {
+            try {
+                final Comparator<String> cmp = Comparator.comparingInt(String::length);
+                list.sort(cmp);
+                head = getHead(list);
+                if (head == null) {
+                    return;
+                }
+                Assertions.assertSame(nil, head);
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(ints = {10, 50, 100, 250, 500, 1000, 2500, 5000, 10000})
+        void testNonEmptyList(final int value) {
+            try {
+                final java.util.List<String> l = new java.util.ArrayList<>();
+                IntStream.range(0, value).forEach(i -> l.add(String.valueOf(i)));
+                Collections.shuffle(l);
+                final String[] lines = l.toArray(new String[0]);
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                final Comparator<String> cmp = Comparator.comparingInt(Integer::parseInt);
+                list.sort(cmp);
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                for (; p != nil && p.next() != nil; p = p.next()) {
+                    Assertions.assertTrue(Integer.parseInt(p.key()) <= Integer.parseInt(p.next().key()), String.format("The length of the element %s is not smaller than %s", p.key(), p.next().key()));
+                }
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list without comparator")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(ints = {10, 50, 100, 250, 500, 1000, 2500, 5000, 10000})
+        void testNonEmptyListNoComparator(final int value) {
+            try {
+                final java.util.List<String> l = new java.util.ArrayList<>();
+                IntStream.range(0, value).forEach(i -> l.add(String.valueOf(i)));
+                Collections.shuffle(l);
+                l.sort(null);
+                final String[] lines = l.toArray(new String[0]);
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                list.sort(null);
+                Node<String> p = getHead(list);
+                if (p == null) {
+                    return;
+                }
+                Iterator<String> it = l.iterator();
+                for (; p != nil && it.hasNext(); p = p.next()) {
+                    String s = it.next();
+                    Assertions.assertEquals(s, p.key(), "Element does not match.");
+                }
+                Assertions.assertFalse(it.hasNext(), "Some elements are missing or there are too many elements.");
+                Assertions.assertSame(nil, p, "Some elements are missing or there are too many elements.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Test case for the operation {@code sublist}. Testing the following methods:
+     * <ul>
+     *     <li>{@code subList(int, int) }</li>
+     * </ul>
+     *
+     * @author Nhan Huynh
+     * @version 1.0.0
+     * @see LinkedList#subList(int, int)
+     */
+    @Nested
+    @DisplayName("Test: sub list")
+    @TestMethodOrder(MethodOrderer.MethodName.class)
+    class TestSubList {
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @Test
+        @DisplayName("Test: Empty list")
+        void testEmptyListException() {
+            try {
+                final int low = 0;
+                final int high = 0;
+                final List<String> l = list.subList(low, high);
+                Assertions.assertEquals(0, l.size(), "A sublist from an empty list [0, 0] is an empty list.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an empty list.
+         */
+        @DisplayName("Test: Empty list")
+        @ParameterizedTest(name = "Sublist [{0}, {1}]")
+        @CsvSource({"-231,4141", "0,10", "0,321", "0,42141"})
+        void testEmptyListException(final String low, final String high) {
+            try {
+                final int l = Integer.parseInt(low);
+                final int h = Integer.parseInt(high);
+                Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.subList(l, h), "A sublist from an empty list is not possible.");
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyList(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list,head);
+                int low = 0;
+                int high = lines.length;
+                while (high - low > 1) {
+                    List<String> l = list.subList(low, high);
+                    int j = low;
+                    for (final String s : l) {
+                        Assertions.assertEquals(lines[j], s, String.format("Element at index %d does not match.", j));
+                        j++;
+                    }
+                    low++;
+                    high--;
+                }
+            } catch (UnsupportedOperationException e) {
+                Assertions.fail(e.getMessage());
+            }
+        }
+
+        /**
+         * Test case whether the operation is successful with an non empty list.
+         *
+         * @param value path of the file and the element of numbers in the list
+         */
+        @DisplayName("Test: Non empty list, invalid interval")
+        @ParameterizedTest(name = "List with {0} elements.")
+        @ValueSource(strings = {"1", "10", "50", "100", "250", "500", "1000", "2500", "5000", "10000"})
+        void testNonEmptyListInvalid(final String value) {
+            try {
+                final String path = String.format("%s%s", PATH_TEST_INPUT, value);
+                final String[] lines = lines(path);
+                if (lines == null) {
+                    return;
+                }
+                final Node<String> head = parse(lines);
+                setHead(list, head);
+                for (int i = 0; i < 15; i++) {
+                    int low = 0;
+                    int high = 0;
+                    while ( 0 <= low && low < lines.length) {
+                        low = ThreadLocalRandom.current().nextInt(-lines.length, lines.length * 2);
+                    }
+                    while ( 0 <= high&& high < lines.length) {
+                        high = ThreadLocalRandom.current().nextInt(-lines.length, lines.length * 2);
+                    }
+                    final int l = low;
+                    final int h = high;
+                    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list.subList(l, h), String.format("Index [%d, %d] is out of boundary.", l, h));
+                }
             } catch (UnsupportedOperationException e) {
                 Assertions.fail(e.getMessage());
             }
